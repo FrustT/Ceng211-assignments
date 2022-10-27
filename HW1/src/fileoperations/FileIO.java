@@ -54,7 +54,7 @@ public class FileIO {
 			}
 		return result;
 	}
-	public static Supplier<Product> getProductDataFromFile(String _productFileName){
+	public static Supplier getProductDataFromFile(String _productFileName){
 		String fileContent = readFileAsString("Files/"+_productFileName);
 		
 		StringTokenizer newLineTokenizer = new StringTokenizer(fileContent,NEWLINE_SEPERATOR);
@@ -74,12 +74,12 @@ public class FileIO {
 			Product newProduct = new Product(id, title, rate, numberOfReviews, price);
 			result[i]= newProduct;
 		}
-		Supplier<Product> supplier = new Supplier<Product>(result);
+		Supplier supplier = new Supplier(result);
 		return supplier;
 		}
-public  Sales[] getSalesDataFromFile(String _salesFileName,Customer[] customerArray,Product[] productArray) {
+	 public static Sales[] getSalesDataFromFile(String _salesFileName,Customer[] customerArray,Product[] productArray) {
 		
-		String fileContent = readFileAsString("Files"+_salesFileName);
+		String fileContent = readFileAsString("Files/"+_salesFileName);
 		
 		StringTokenizer newLineTokenizer = new StringTokenizer(fileContent,NEWLINE_SEPERATOR);
 		StringTokenizer inLineTokenizer ;
