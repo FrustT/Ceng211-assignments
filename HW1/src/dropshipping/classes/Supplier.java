@@ -2,7 +2,6 @@ package dropshipping.classes;
 
 import dropshipping.interfaces.SupplierInterface;
 
-@SuppressWarnings("hiding")
 public class Supplier implements SupplierInterface {
 
     private Product[] products;
@@ -14,13 +13,12 @@ public class Supplier implements SupplierInterface {
 
     }
 
-    @SuppressWarnings("unchecked")//TBD
-	public Product[] toArray() {
+    public Product[] toArray() {
     	Product[] result = new Product[numberOfItems];
     	for(int i =0;i<numberOfItems;i++) {
     		result[i] =new Product(this.products[i]);
     	}
-        return products;
+        return result;
 
     }
 

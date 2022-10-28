@@ -15,7 +15,7 @@ public class FileIO {
 	static final String  NEWLINE_SEPERATOR = System.getProperty("line.separator");//This line handles different OS's escape Characters for newlines
 	
 	@SuppressWarnings("resource")
-	public static String readFileAsString(String _path) {
+	private static String readFileAsString(String _path) {
 		String content = "";
 		try {
 			Scanner s = new Scanner(new FileReader(_path)).useDelimiter("\\A");

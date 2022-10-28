@@ -21,9 +21,14 @@ public class Product implements ProductInterface {
 		
 	}
 	public Product(Product _product) {
-		new Product(_product.getId(),_product.getTitle(),_product.getRate(),_product.getNumberOfReviews(),_product.getPrice());
+		this.id = _product.getId();
+		this.title = _product.getTitle();
+		this.rate = _product.getRate();
+		this.numberOfReviews = _product.getNumberOfReviews();
+		this.price = _product.getPrice();
 	}
 	
+
 	public String getId() {
 		return this.id;
 	}
@@ -64,8 +69,8 @@ public class Product implements ProductInterface {
 	public void setPrice(float input) {
 		this.price = input;		
 	}
-	public boolean compareId(String id) {
-		return this.id.equals(id);
+	public boolean compareId(String _id) {
+		return id.equals(_id);
 	}
 
 	
