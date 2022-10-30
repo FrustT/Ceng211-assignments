@@ -16,8 +16,7 @@ public class SalesManagement implements SalesManagementInterface {
 		salesArr = saleManager.getArray();
 	}
 	
-	
-	//We should copy the array before returning it
+	// We should copy the array before returning it
 	public Sales[][] getArray() {
 		
 		Sales[][] result = new Sales[salesArr.length][];
@@ -34,9 +33,7 @@ public class SalesManagement implements SalesManagementInterface {
 		
 		return result;
 	}
-
-
-
+	
 	public int getNumberOfSales() {
 		int sum = 0;
 		for(Sales[] arr : salesArr) {
@@ -45,16 +42,16 @@ public class SalesManagement implements SalesManagementInterface {
 		return sum;
 	}
 
-
 	public Sales[] getAllSalesAsOneDimArray() {
-		
 		Sales[] result = new Sales[this.getNumberOfSales()];
 		int index = 0;
+		
 		for(Sales[] arr: salesArr){
 			for(Sales sale :arr){
 				result[index++] = new Sales(sale);
 			}
 		}
+		
 		return result;
 	}
 	

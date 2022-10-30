@@ -97,7 +97,7 @@ public class Customer implements CustomerInterface {
 	// Checks the string if it is null or made by spaces.
 	private boolean isNull(String _string){ 
 		_string = _string.strip();
-		if(_string == null)return true;
+		if(_string == null) return true;
 		return false;
 	}
 }
