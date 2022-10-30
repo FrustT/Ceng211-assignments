@@ -8,10 +8,11 @@ public class FindObjectById {
 		
 		for(Customer i : _customersArray) {
 			if(i.customerCompareId(_customerId)) {
-				Customer result = new Customer(i);
+				Customer result = new Customer(i);	//To prevent privacy leak, we used copy constructor.
 				return result;
 			}
 		}
+		
 		System.out.println("Could not find the customer associated with given id. System exiting...");
 		System.exit(0);
 		return null;

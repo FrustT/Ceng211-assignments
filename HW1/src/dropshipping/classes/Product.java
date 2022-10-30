@@ -29,7 +29,7 @@ public class Product implements ProductInterface {
 	}
 	
 
-	public String getProductId() {
+	public String getProductId() { //Since String class is immutable, there is no need for copy constructor here.
 		return this.productId;
 	}
 	
@@ -98,6 +98,7 @@ public class Product implements ProductInterface {
 		return "(Id: "+productId+") (Title: "+productTitle +") (Rate: "+ productRate + ") (Number of reviews: "+ productNumberOfReviews+ ") (Price: "+ productPrice+")" ;
 	}
 	
+	// Checks the string if it is null or made by spaces.
 	private boolean isNull(String _string){
 		_string = _string.strip();
 		if(_string == null)return true;

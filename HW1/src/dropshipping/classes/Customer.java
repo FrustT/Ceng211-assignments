@@ -26,7 +26,7 @@ public class Customer implements CustomerInterface {
 		this.customerAddress = _customer.getCustomerAddress();
 	}
 	
-	public String getCustomerId() {
+	public String getCustomerId() { //Since String class is immutable, there is no need for copy constructor here.
 		return customerId;
 	}
 	
@@ -55,7 +55,7 @@ public class Customer implements CustomerInterface {
 	}
 	
 	public void setCustomerEmail(String _email) {
-		if (isNull(_email)) {
+		if (isNull(_email) && !_email.contains("@")) {
 			System.out.println("This email is invalid.");
 			System.exit(0);
 		}
@@ -94,7 +94,8 @@ public class Customer implements CustomerInterface {
 		return "(Id:"+customerId+") (Name:"+customerName +") (Email:"+ customerEmail + ") (Country:"+ customerCountry+ ") (Address:"+ customerAddress+")" ; 
 	}
 	
-	private boolean isNull(String _string){
+	// Checks the string if it is null or made by spaces.
+	private boolean isNull(String _string){ 
 		_string = _string.strip();
 		if(_string == null)return true;
 		return false;

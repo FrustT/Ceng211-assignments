@@ -17,16 +17,16 @@ public interface SalesManagementInterface {
 	//public boolean add(Sales[] array);
 
 	/*
-	 * Gets the current number of entries in this SalesManagement.
-	 * @return The integer number of entries currently in the SalesManagement.
+	 * Gets the current number of sales in this SalesManagement object.
+	 * @return The integer number of sales currently in the SalesManagement object.
 	 */
-	//public int getNumberOfItems();
+	public int getNumberOfSales();
 	
 	/*
-	 * Gets the Array of all Products.
-	 * @return	The array of contents.
+	 * Gets the Array of all Sales as one dimansional.
+	 * @return	The array of sales.
 	 */
-	//public Sales[] getSuppliersAsArray();
+	public Sales[] getAllSalesAsOneDimArray();
 	
 	
 }

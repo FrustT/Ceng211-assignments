@@ -19,7 +19,7 @@ public  class Display {
 		Sales firstQuery = new Sales(SalesQuery.getMostProfitableSale(init.getSaleManager()));
 		
 		System.out.println(
-		"1-Most profitable product among the three suppliers:\n     "+ firstQuery.getSalesProduct().toString()
+		"1-Most profitable product among the three suppliers:\n     "+ firstQuery.getSalesProduct()
 		+" with profit of "+ firstQuery.getSaleProfit()+" TL\n");
 		
 	}
@@ -28,7 +28,7 @@ public  class Display {
 		Sales secondQuery = new Sales(SalesQuery.getMostExpensiveSales(init.getSaleManager()));
 		
 		System.out.println(
-		"2-The most expensive product in terms of sales price:\n     "+secondQuery.getSalesProduct().toString()
+		"2-The most expensive product in terms of sales price:\n     "+secondQuery.getSalesProduct()
     	+" with sales price "+ secondQuery.getSalesPrice()+" TL\n");
 	}
 	
@@ -36,7 +36,7 @@ public  class Display {
 		int[] thirdQuery = SalesQuery.getCustomerWhoPurchasedMost(init.getSaleManager(), init.getCustomerArray());
 		
     	System.out.println(
-		"3-The customer who purchased the most products among the suppliers:\n     "+ init.getCustomerArray()[thirdQuery[0]].toString()
+		"3-The customer who purchased the most products among the suppliers:\n     "+ init.getCustomerArray()[thirdQuery[0]]
 		+"-> "+ thirdQuery[1]+" purchases\n");
 	}
 	
@@ -50,7 +50,7 @@ public  class Display {
 	private void executeFifthQuery(){
 		Sales fifthQuery = new Sales(SalesQuery.getLeastProfitSaleOfS1(init.getSaleManager()));
 		
-		System.out.println("5-The least-profit product of S1:\n     "+fifthQuery.getSalesProduct().toString()
+		System.out.println("5-The least-profit product of S1:\n     "+fifthQuery.getSalesProduct()
 		+"-> "+ fifthQuery.getSaleProfit()+" TL profit");
 	}
 }

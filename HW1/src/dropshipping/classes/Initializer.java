@@ -1,5 +1,6 @@
 package dropshipping.classes;
 import fileoperations.FileIO;
+
 public class Initializer {
 
 	private Customer[] customerArray;
@@ -9,7 +10,7 @@ public class Initializer {
 	private Sales[] s1Sales;
 	private Sales[] s2Sales;
 	private Sales[] s3Sales;
-	private SalesManagement saleManager;//TBD bence public olmalı
+	private SalesManagement saleManager;
 	
 	public Initializer(){
 		customerArray = FileIO.getCustomersDataFromFile();
@@ -25,7 +26,8 @@ public class Initializer {
 	public Customer[] getCustomerArray(){
 		Customer[] result = new Customer[customerArray.length];
 		for(int i = 0; i < result.length; i++){
-			result[i] = customerArray[i];
+			Customer copyCustomer = new Customer(customerArray[i]);	//To prevent privacy leak, we used copy constructor.
+			result[i] = copyCustomer;
 		}
 		return result;
 	}
