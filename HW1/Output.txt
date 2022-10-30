@@ -1,0 +1,14 @@
+1-Most profitable product among the three suppliers:
+     (Id: E10) (Title: Powertec Hair Dryer) (Rate: 4.6) (Number of reviews: 92853) (Price: 239.0) with profit of 8542475.0 TL
+
+2-The most expensive product in terms of sales price:
+     (Id: E10) (Title: Powertec Hair Dryer) (Rate: 4.6) (Number of reviews: 92853) (Price: 239.0) with sales price 8542714.0 TL
+
+3-The customer who purchased the most products among the suppliers:
+     (Id:JRH55SCD2OT) (Name:Cansu Ozkan) (Email:cansuozkan@iyte.edu.tr) (Country:Turkiye) (Address:IZTECH Computer Engineering 142)-> 12 purchases
+
+4-Total profit made from all sales:
+     29370026 TL profit
+
+5-The least-profit product of S1:
+     (Id: E16) (Title: Realme Google Tv Stick) (Rate: 4.0) (Number of reviews: 6) (Price: 999.0)-> 480.0 TL profit

@@ -52,6 +52,7 @@ public class SalesQuery {
 		for(Sales[] arr : salesManagementArray){
 			for(Sales sale : arr){
 				result += sale.getSaleProfit();
+											
 			}
 		}
 		
@@ -63,13 +64,12 @@ public class SalesQuery {
  		Sales[] salesOfSupplier1 = _salesManagement.getArray()[0];
 		Sales leastProfitableSale =  salesOfSupplier1[0];
 			
-		
 			for(Sales sale : salesOfSupplier1){
-				
-				if(sale.getSaleProfit() < leastProfitableSale.getSaleProfit()) leastProfitableSale = sale;
+				if(sale.getSaleProfit() < leastProfitableSale.getSaleProfit()) {
+					
+					leastProfitableSale =new Sales(sale);
+				}
 			}
-		
-		
 		return leastProfitableSale;
 	}
 	

@@ -75,7 +75,7 @@ public class Sales implements SalesInterface {
 		return this.salesPrice - this.salesProduct.getProductPrice();
 	}
 	public String toString(){
-		return "";//TODO
+		return "(Id:"+salesId+") (Customer's Id: "+salesCustomer.getCustomerId() +") (Product's Id:"+ salesProduct.getProductId() + ") (Date:"+ salesDate.toString()+ ") (Price:"+ salesPrice+")" ;
 	}	
 	
 

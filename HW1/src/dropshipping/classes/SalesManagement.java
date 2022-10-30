@@ -39,8 +39,8 @@ public class SalesManagement implements SalesManagementInterface {
 
 	public int getNumberOfSales() {
 		int sum = 0;
-		for (int number = 0; number< salesArr.length; number++) {
-			sum += salesArr[number].length;
+		for(Sales[] arr : salesArr) {
+			sum += arr.length;
 		}
 		return sum;
 	}
@@ -52,7 +52,7 @@ public class SalesManagement implements SalesManagementInterface {
 		int index = 0;
 		for(Sales[] arr: salesArr){
 			for(Sales sale :arr){
-				result[index] = new Sales(sale);
+				result[index++] = new Sales(sale);
 			}
 		}
 		return result;

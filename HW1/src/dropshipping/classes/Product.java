@@ -95,7 +95,7 @@ public class Product implements ProductInterface {
 	}
 	
 	public String toString(){
-		return "(Id:"+productId+") (Title:"+productTitle +") (Rate:"+ productRate + ") (Number of reviews:"+ productNumberOfReviews+ ") (Price:"+ productPrice+")" ;
+		return "(Id: "+productId+") (Title: "+productTitle +") (Rate: "+ productRate + ") (Number of reviews: "+ productNumberOfReviews+ ") (Price: "+ productPrice+")" ;
 	}
 	
 	private boolean isNull(String _string){

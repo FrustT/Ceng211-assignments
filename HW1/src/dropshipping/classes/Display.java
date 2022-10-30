@@ -17,33 +17,40 @@ public  class Display {
 	
 	private void executeFirstQuery(){
 		Sales firstQuery = new Sales(SalesQuery.getMostProfitableSale(init.getSaleManager()));
+		
 		System.out.println(
-		"1- Most profitable product among the three suppliers-)"+ firstQuery.toString()
-		+" with profit of "+ firstQuery.getSaleProfit());
+		"1-Most profitable product among the three suppliers:\n     "+ firstQuery.getSalesProduct().toString()
+		+" with profit of "+ firstQuery.getSaleProfit()+" TL\n");
+		
 	}
 	
 	private void executeSecondQuery(){
 		Sales secondQuery = new Sales(SalesQuery.getMostExpensiveSales(init.getSaleManager()));
+		
 		System.out.println(
-		"2- The most expensive product in terms of sales price-)"+secondQuery.toString()
-    	+" with sales price"+ secondQuery.getSalesPrice());
+		"2-The most expensive product in terms of sales price:\n     "+secondQuery.getSalesProduct().toString()
+    	+" with sales price "+ secondQuery.getSalesPrice()+" TL\n");
 	}
 	
 	private void executeThirdQuery(){
 		int[] thirdQuery = SalesQuery.getCustomerWhoPurchasedMost(init.getSaleManager(), init.getCustomerArray());
+		
     	System.out.println(
-		"3- The customer who purchases the most products among the suppliers-)"+ init.getCustomerArray()[thirdQuery[0]].toString()
-		+"-> "+ thirdQuery[1]+" purchases");
+		"3-The customer who purchased the most products among the suppliers:\n     "+ init.getCustomerArray()[thirdQuery[0]].toString()
+		+"-> "+ thirdQuery[1]+" purchases\n");
 	}
 	
 	private void executeFourthQuery(){
-		float fourthQuery = SalesQuery.getTotalProfit(init.getSaleManager());
-		System.out.println("4- Total profit made from all sales-)"+fourthQuery);
+		int fourthQuery =  (int) SalesQuery.getTotalProfit(init.getSaleManager());
+		
+		System.out.println("4-Total profit made from all sales:\n     "+fourthQuery+" TL profit\n");
+		
 	}
 	
 	private void executeFifthQuery(){
-		Sales fifthQuery = new Sales(SalesQuery.getMostExpensiveSales(init.getSaleManager()));
-		System.out.println("5- The least-profit product of S1-)"+fifthQuery.toString()
-		+"->"+ fifthQuery.getSaleProfit()+" TL profit");
+		Sales fifthQuery = new Sales(SalesQuery.getLeastProfitSaleOfS1(init.getSaleManager()));
+		
+		System.out.println("5-The least-profit product of S1:\n     "+fifthQuery.getSalesProduct().toString()
+		+"-> "+ fifthQuery.getSaleProfit()+" TL profit");
 	}
 }

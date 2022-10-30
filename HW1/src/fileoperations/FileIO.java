@@ -1,6 +1,5 @@
 package fileoperations;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.time.LocalDate;
@@ -14,7 +13,6 @@ public class FileIO {
 	
 	static final String  NEWLINE_SEPERATOR = System.getProperty("line.separator");//This line handles different OS's escape Characters for newlines
 	
-	@SuppressWarnings("resource")
 	private static String readFileAsString(String _path) {
 		String content = "";
 		try {
@@ -25,10 +23,11 @@ public class FileIO {
 		} catch (FileNotFoundException e) {
 			System.out.println("The file you requested has not found.");
 			e.printStackTrace();
-		}
 		
+			} 
 		return content;
-	}
+		}
+	
 	public static Customer[] getCustomersDataFromFile()  {
 		
 			String fileContent = readFileAsString("Files/Customers.csv");			

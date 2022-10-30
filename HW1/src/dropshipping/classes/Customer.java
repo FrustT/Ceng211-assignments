@@ -10,7 +10,7 @@ public class Customer implements CustomerInterface {
 	private String customerCountry;
 	private String customerAddress;
 	
-	public Customer(String _customerId, String _customerName, String _customerEmail, String _customerCountry, String _customerAddress) { //kontrol et
+	public Customer(String _customerId, String _customerName, String _customerEmail, String _customerCountry, String _customerAddress) {
 		this.customerId = _customerId;
 		this.customerName = _customerName;
 		this.customerEmail = _customerEmail;
