@@ -26,7 +26,8 @@ public class Initializer {
 	public Customer[] getCustomerArray(){
 		Customer[] result = new Customer[customerArray.length];
 		for(int i = 0; i < result.length; i++){
-			Customer copyCustomer = new Customer(customerArray[i]);	//To prevent privacy leak, we used copy constructor.
+			// To prevent privacy leak, we used copy constructor.
+			Customer copyCustomer = new Customer(customerArray[i]);
 			result[i] = copyCustomer;
 		}
 		return result;

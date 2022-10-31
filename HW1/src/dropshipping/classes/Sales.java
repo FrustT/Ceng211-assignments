@@ -26,7 +26,8 @@ public class Sales implements SalesInterface {
 		this.salesPrice = _sales.getSalesPrice();
 	}
 	
-	public String getSalesId() { //Since String class is immutable, there is no need for copy constructor here.
+	// Since String class is immutable, there is no need for copy constructor here.
+	public String getSalesId() {
 		return this.salesId;
 	}
 
@@ -34,8 +35,9 @@ public class Sales implements SalesInterface {
 		this.salesId = _sales;
 	}
 
+	// To prevent privacy leak, we used copy constructor.
 	public Customer getSalesCustomer() {
-		return new Customer(this.salesCustomer); //To prevent privacy leak, we used copy constructor.
+		return new Customer(this.salesCustomer);
 	}
 
 	public void setSalesCustomer(Customer _sales) {
@@ -50,7 +52,8 @@ public class Sales implements SalesInterface {
 		this.salesProduct = _sales;
 	}
 
-	public LocalDate getSalesDate(){ //Since LocalDate class is immutable, there is no need for copy constructor here.
+	// Since LocalDate class is immutable, there is no need for copy constructor here.
+	public LocalDate getSalesDate(){
 		return this.salesDate;
 	}
 

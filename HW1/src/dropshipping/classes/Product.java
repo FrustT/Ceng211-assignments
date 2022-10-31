@@ -9,17 +9,14 @@ public class Product implements ProductInterface {
 	private int productNumberOfReviews;
 	private float productPrice;
 	
-	
-	
 	public Product(String _productId, String _productTitle, float _productRate, int _productNumberOfReviews, float _productPrice){
-		
 		this.productId = _productId;
 		this.productTitle = _productTitle;
 		this.productRate = _productRate;
 		this.productNumberOfReviews = _productNumberOfReviews;
 		this.productPrice = _productPrice;
-		
 	}
+	
 	public Product(Product _product) {
 		this.productId = _product.getProductId();
 		this.productTitle = _product.getProductTitle();
@@ -27,7 +24,6 @@ public class Product implements ProductInterface {
 		this.productNumberOfReviews = _product.getProductNumberOfReviews();
 		this.productPrice = _product.getProductPrice();
 	}
-	
 
 	public String getProductId() { //Since String class is immutable, there is no need for copy constructor here.
 		return this.productId;
@@ -101,9 +97,8 @@ public class Product implements ProductInterface {
 	// Checks the string if it is null or made by spaces.
 	private boolean isNull(String _string){
 		_string = _string.strip();
-		if(_string == null)return true;
+		if(_string == null) return true;
 		return false;
-	}
-	
+	}	
 	
 }
