@@ -1,6 +1,20 @@
 package dropshipping.classes;
 import dropshipping.interfaces.ProductInterface;
-
+	
+	/**
+	 * This Class holds product's instance variables with getters and setters.
+	 * <ul>
+	 * <li><strong>productId</strong> type: String
+	 * <li><strong>productTitle</strong> type: String
+	 * <li><strong>productRate</strong> type: float
+	 * <li><strong>productNumberOfReviews</strong> type: int
+	 * <li><strong>productPrice</strong> type: float
+	 * </ul> 
+	 * @author  Mustafa Fatih Can 280201007
+	 * @author  Deniz Kaya 280201033
+	 * @author  Hakan Uskan 280201076
+	 * @author  Burak Erinç 290201099
+	 */
 public class Product implements ProductInterface {
 
 	private String productId;
@@ -9,6 +23,15 @@ public class Product implements ProductInterface {
 	private int productNumberOfReviews;
 	private float productPrice;
 	
+	/**
+	 * <strong>Parameterized Constructor</strong><p>
+	 * Constructs Product Object with required data.
+	 * @param _productId
+	 * @param _productTitle
+	 * @param _productRate
+	 * @param _productNumberOfReviews
+	 * @param _productPrice
+	 */
 	public Product(String _productId, String _productTitle, float _productRate, int _productNumberOfReviews, float _productPrice){
 		this.productId = _productId;
 		this.productTitle = _productTitle;
@@ -17,6 +40,11 @@ public class Product implements ProductInterface {
 		this.productPrice = _productPrice;
 	}
 	
+	/**
+	 * <strong>Copy Constructor</strong><p>
+	 * Constructs a new Product Object with another Product Object
+	 * @param _product
+	 */
 	public Product(Product _product) {
 		this.productId = _product.getProductId();
 		this.productTitle = _product.getProductTitle();
@@ -25,7 +53,8 @@ public class Product implements ProductInterface {
 		this.productPrice = _product.getProductPrice();
 	}
 
-	public String getProductId() { //Since String class is immutable, there is no need for copy constructor here.
+	public String getProductId() { 
+		//Since String class is immutable, there is no need for copy constructor here.
 		return this.productId;
 	}
 	

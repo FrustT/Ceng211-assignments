@@ -1,30 +1,24 @@
 package dropshipping.interfaces;
 import dropshipping.classes.*;
 
+	/** An interface that describes the operations of SalesManagement class.*/
 public interface SalesManagementInterface {
 	
-	/*
+	/**
 	 * Returns the two dimensional array of suppliers and their products. 
-	 * @return	The copy array of salesArr.
+	 * @return two dimensional copy array of Sales.
 	 */
 	public Sales[][] getArray();
-	//TODO ADD METHOD CONTRACT THAT IS NOT DESCRIBED IN THIS INTERFACE
-	/*
-	 * Add an Sales Array to the SalesManagement
-	 * @param Supplier The object to be added as a item.
-	 * @return	True if the addition is successful, or false if not.
-	 */
-	//public boolean add(Sales[] array);
 
-	/*
+	/**
 	 * Gets the current number of sales in this SalesManagement object.
 	 * @return The integer number of sales currently in the SalesManagement object.
 	 */
 	public int getNumberOfSales();
 	
-	/*
-	 * Gets the Array of all Sales as one dimansional.
-	 * @return	The array of sales.
+	/**
+	 * Gets the Array of all Sales as one dimensional Array.
+	 * @return	The copy array of sales.
 	 */
 	public Sales[] getAllSalesAsOneDimArray();
 	

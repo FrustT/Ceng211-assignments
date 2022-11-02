@@ -2,6 +2,20 @@ package dropshipping.classes;
 
 import dropshipping.interfaces.CustomerInterface;
 
+	/**
+	 * This Class holds customer's instance variables with getters and setters.
+	 * <ul>
+	 * <li><strong>customerId</strong> type: String
+	 * <li><strong>customerName</strong> type: String
+	 * <li><strong>customerEmail</strong> type: String
+	 * <li><strong>customerCountry</strong> type: String
+	 * <li><strong>customerAddress</strong> type: String
+	 * </ul>
+	 * @author  Mustafa Fatih Can 280201007
+	 * @author  Deniz Kaya 280201033
+	 * @author  Hakan Uskan 280201076
+	 * @author  Burak Erinç 290201099
+	 */
 public class Customer implements CustomerInterface {
 
 	private String customerId;
@@ -10,6 +24,15 @@ public class Customer implements CustomerInterface {
 	private String customerCountry;
 	private String customerAddress;
 	
+	/**
+	 * <strong>Parameterized Constructor</strong><p>
+	 * Constructs Customer Object with required data.
+	 * @param _customerId
+	 * @param _customerName
+	 * @param _customerEmail
+	 * @param _customerCountry
+	 * @param _customerAddress
+	 */
 	public Customer(String _customerId, String _customerName, String _customerEmail, String _customerCountry, String _customerAddress) {
 		this.customerId = _customerId;
 		this.customerName = _customerName;
@@ -17,7 +40,12 @@ public class Customer implements CustomerInterface {
 		this.customerCountry = _customerCountry;
 		this.customerAddress = _customerAddress;
 	}
-		
+	
+	/**
+	 * <strong>Copy Constructor</strong><p>
+	 * Constructs a new Customer Object with another Customer Object
+	 * @param _customer
+	 */
 	public Customer(Customer _customer) {
 		this.customerId = _customer.getCustomerId();
 		this.customerName = _customer.getCustomerName();
@@ -26,7 +54,8 @@ public class Customer implements CustomerInterface {
 		this.customerAddress = _customer.getCustomerAddress();
 	}
 	
-	public String getCustomerId() { //Since String class is immutable, there is no need for copy constructor here.
+	public String getCustomerId() { 
+		//Since String class is immutable, there is no need for copy constructor here.
 		return customerId;
 	}
 	

@@ -1,10 +1,25 @@
 package dropshipping.classes;
 
 import dropshipping.interfaces.SalesManagementInterface;
-
+	/**
+	 * This Class holds all Supplier's Sales Objects as 2 dimentional array.
+	 * First array is for seperating Suppliers, Second array is for seperating Each Suppliers Sales type objects
+	 * <ul>
+	 * <li><strong>SalesArr</strong> type : Sales[][]
+	 * </ul>
+	 * @author  Mustafa Fatih Can 280201007
+	 * @author  Deniz Kaya 280201033
+	 * @author  Hakan Uskan 280201076
+	 * @author  Burak Erinç 290201099
+	 */
 public class SalesManagement implements SalesManagementInterface {
 	private Sales[][] salesArr;
 	
+	/**
+	 * <strong>Parameterized Constructor</strong><p>
+	 * Constructs SalesManagement Object with Sales[] array.
+	 * @param Sales[]
+	 */
 	public SalesManagement(Sales[]... args) {
 		this.salesArr = new Sales[args.length][];
 		for(int i = 0; i < args.length; i++){
@@ -12,13 +27,17 @@ public class SalesManagement implements SalesManagementInterface {
 		}
 	}
 	
+	/**
+	 * <strong>Copy Constructor</strong><p>
+	 * Constructs a new SalesManagement Object with another SalesManagement Object
+	 * @param Sales[]
+	 */
 	public SalesManagement(SalesManagement saleManager){
-		salesArr = saleManager.getArray();
+		this.salesArr = saleManager.getArray();
 	}
 	
-	// We should copy the array before returning it
 	public Sales[][] getArray() {
-		
+		//This code copies the objects for preventing privacy leak
 		Sales[][] result = new Sales[salesArr.length][];
 		
 		for(int a = 0; a < salesArr.length; a++){
@@ -43,6 +62,7 @@ public class SalesManagement implements SalesManagementInterface {
 	}
 
 	public Sales[] getAllSalesAsOneDimArray() {
+		//This code copies the objects for preventing privacy leak
 		Sales[] result = new Sales[this.getNumberOfSales()];
 		int index = 0;
 		
