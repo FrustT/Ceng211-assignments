@@ -2,7 +2,7 @@ package vehiclepricecalculator.classes;
 
 import java.time.LocalDate;
 
-public class MinivanVehicle extends Vehicle{
+public class MinivanVehicle extends Automobile{
 	private enum NumberOfSeats {FOUR, FIVE, SIX, SEVEN}
 	
 	private NumberOfSeats numberOfSeats;
@@ -62,5 +62,11 @@ public class MinivanVehicle extends Vehicle{
 			System.out.println("The value of engine volume must be equal or greater than zero.");
 			System.exit(0);
 		}
+	}
+	public String toString() {//TODO
+		return "";
+	}
+	public boolean equals() {//TODO
+		return false;
 	}
 }

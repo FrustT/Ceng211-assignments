@@ -54,6 +54,11 @@ public class BicycleVehicle extends Vehicle{
 	public void setSeatPost(SeatPost _seatPost) {
 		this.seatPost = _seatPost;
 	}
-	
+	public String toString() {//TODO
+		return "";
+	}
+	public boolean equals() {//TODO
+		return false;
+	}
 	
 }
