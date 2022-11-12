@@ -38,24 +38,24 @@ public interface VehicleInterface {
 	 * Sets Vehicle Object's <b>month of sale></b> variable with given LocalDate Object after checking for validity.
 	 * @param LocalDate _monthOfSale
 	 */
-	public void setMonthOfSale(LocalDate _monthOfSale);
+	public void setMonthOfSale(String _monthOfSale);
 	
 	/**
 	 * Gets Vehicle Object's <b>month of sale></b> variable as considering privacy leak.
 	 * @return LocalDate month of sale
 	 */
-	public LocalDate getMonthOfSale();
+	public String getMonthOfSale();
 	
 	/**
 	 * Sets Vehicle Object's <b>ProductionYear</b> variable with given LocalDate Object after checking for validity.
 	 * @param LocalDate _year
 	 */
-	public void setProductionYearOfVehicle(LocalDate _year);
+	public void setProductionYearOfVehicle(int _year);
 	
 	/**
 	 * Gets Vehicle Object's <b>ProductionYear</b> variable as considering privacy leak.
 	 * @return LocalDate Production year of vehicle
 	 */
-	public LocalDate getProductionYearOfVehicle();
+	public int getProductionYearOfVehicle();
 	
 }

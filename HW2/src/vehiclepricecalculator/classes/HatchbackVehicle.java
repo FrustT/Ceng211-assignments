@@ -1,6 +1,7 @@
 package vehiclepricecalculator.classes;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public class HatchbackVehicle extends Automobile{
 	private boolean cityMode;
@@ -15,7 +16,7 @@ public class HatchbackVehicle extends Automobile{
 		this.setCityMode(_hatchbackVehicle.getCityMode());
 	}
 	
-	public HatchbackVehicle(String _vehicleId, LocalDate _monthOfSale, String _cityOfSale, LocalDate _productionYear, int _valueAddedTax, boolean _cityMode, double _engineVolume) {
+	public HatchbackVehicle(String _vehicleId, String _monthOfSale, String _cityOfSale, int _productionYear, int _valueAddedTax, boolean _cityMode, double _engineVolume) {
 		super(_vehicleId, _monthOfSale, _cityOfSale, _productionYear, _valueAddedTax,_engineVolume);
 		this.setCityMode(_cityMode);
 	}
@@ -35,10 +36,29 @@ public class HatchbackVehicle extends Automobile{
 	public void setCityMode(boolean _cityMode) {
 		this.cityMode = _cityMode;
 	}
-	public String toString() {//TODO
-		return "";
+	
+	public double calculateSCT() {
+		return this.getEngineVolume()*0.3*this.getProductionYearSCTValue() + getCityModeSCTValue();
 	}
-	public boolean equals() {//TODO
+	
+	public String toString() {
+		return "Vehicle: Hatchback " + super.toString();
+	}
+	
+	public boolean equals(Object _object) {
+		if(super.equals(_object)) {
+			HatchbackVehicle hatchbackVehicle = (HatchbackVehicle) _object;
+			return this.getCityMode() == hatchbackVehicle.getCityMode();
+		}
 		return false;
+	}
+	
+	private double getCityModeSCTValue(){
+		if (this.cityMode){
+			return 0.15;
+		}
+		else {
+			return 0.1;
+		}
 	}
 }
