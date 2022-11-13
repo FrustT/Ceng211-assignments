@@ -16,6 +16,7 @@ public abstract class Vehicle implements VehicleInterface {
 	private CityName cityOfSale;
 	private int productionYear;
 	private int valueAddedTax;
+	public final int BASE_PRICE;
 
 	/**
 	 * <b>No Argument Constructor</b>
@@ -42,7 +43,10 @@ public abstract class Vehicle implements VehicleInterface {
 		this.setCityOfSale(_cityOfSale);
 		this.setProductionYearOfVehicle(_productionYear);
 		this.setValueAddedTax(_valueAddedTax);
+		this.BASE_PRICE = getBASE_PRICE();
 	}
+
+	public abstract int getBASE_PRICE();
 
 	public void setVehicleID(String _ID) {
 		if (_ID.length() != 4) {
@@ -107,7 +111,8 @@ public abstract class Vehicle implements VehicleInterface {
 
 	public String toString() {
 		return "Vehicle ID:" + getVehicleID() + "  // Month:" + getMonthOfSale() + " // City:" + getCityOfSale()
-				+ "  // Production Year:" + getProductionYearOfVehicle() + " // SCT:"+ calculateSCT() +" // Total Price: " + calculateTotalPrice();
+				+ "  // Production Year:" + getProductionYearOfVehicle() + " // SCT:" + calculateSCT()
+				+ " // Total Price: " + calculateTotalPrice();
 	}
 
 	public boolean equals(Object _object) {
@@ -122,17 +127,6 @@ public abstract class Vehicle implements VehicleInterface {
 				&& _vehicle.getProductionYearOfVehicle() == this.getProductionYearOfVehicle()
 				&& _vehicle.getValueAddedTax() == this.getValueAddedTax();
 	}
-
-	/*
-	 * public boolean equals(Vehicle _vehicle) { if (_vehicle == null)return false;
-	 * if(this.getClass() != _vehicle.getClass())return false; return
-	 * _vehicle.getVehicleID().equals(this.getVehicleID()) &&
-	 * _vehicle.getMonthOfSale().equals(this.getMonthOfSale()) &&
-	 * _vehicle.getCityOfSale().equals(this.getCityOfSale()) &&
-	 * _vehicle.getProductionYearOfVehicle() == this.getProductionYearOfVehicle() &&
-	 * _vehicle.getValueAddedTax() == this.getValueAddedTax(); }
-	 */
-
 	protected double getMonthOfSaleSCTValue() {
 		switch (this.monthOfSale) {
 		case AUGUST:
@@ -165,18 +159,4 @@ public abstract class Vehicle implements VehicleInterface {
 		}
 		return productionYearSCTValue;
 	}
-	/*
-	 * protected double getProductionYearSCTValue(){ DateTimeFormatter formatter =
-	 * DateTimeFormatter.ofPattern("uuuu"); int year productionYear.getYear();
-	 * if(year.isAfter(Year.parse("2001").atDay(1)) &&
-	 * year.isBefore(Year.parse("2008").atDay(1))){
-	 * 
-	 * } else if (year.isAfter(Year.parse("2012").atDay(1)) &&
-	 * year.isBefore(Year.parse("2017").atDay(1))){
-	 * 
-	 * } else if (year.isAfter(Year.parse("2018").atDay(1)) &&
-	 * year.isBefore(Year.parse("2022").atDay(1))){
-	 * 
-	 * } }
-	 */
 }

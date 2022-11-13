@@ -1,7 +1,6 @@
 package vehiclepricecalculator.classes;
 
 public abstract class Automobile extends Vehicle {
-	public final int BASEPRICE = 200000;
 	private double engineVolume;
 
 	public Automobile() {
@@ -20,6 +19,10 @@ public abstract class Automobile extends Vehicle {
 		this.engineVolume = _automobile.engineVolume;
 	}
 
+	public int getBASE_PRICE() {
+		return 200000;
+	}
+
 	public double getEngineVolume() {
 		return this.engineVolume;
 	}
@@ -35,7 +38,7 @@ public abstract class Automobile extends Vehicle {
 	public abstract double calculateSCT();
 
 	public double calculateTotalPrice() {
-		return (BASEPRICE) * (1.0 + calculateSCT() * 0.8) + (1.0 + getValueAddedTax() / 100.0);
+		return (BASE_PRICE) * (1.0 + calculateSCT() * 0.8) + (1.0 + getValueAddedTax() / 100.0);
 	}
 
 	public String toString() {

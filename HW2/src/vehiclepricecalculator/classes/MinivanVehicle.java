@@ -1,6 +1,5 @@
 package vehiclepricecalculator.classes;
 
-import java.time.LocalDate;
 
 public class MinivanVehicle extends Automobile{
 	private enum NumberOfSeats {FOUR, FIVE, SIX, SEVEN}
@@ -14,6 +13,7 @@ public class MinivanVehicle extends Automobile{
 	
 	public MinivanVehicle(MinivanVehicle _vehicle) {
 		super(_vehicle);
+		this.setNumberOfSeats(_vehicle.getNumberOfSeats());
 	}
 	
 	public MinivanVehicle(String _vehicleId, String _monthOfSale, String _cityOfSale, int _productionYear, int _valueAddedTax, int _numberOfSeats, double _engineVolume) {
