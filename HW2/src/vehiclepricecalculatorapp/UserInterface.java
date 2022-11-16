@@ -58,6 +58,8 @@ public class UserInterface {
 	
 	private void printRequiredList(int _choice) {
 		switch(_choice) {
+		case 0:
+			return;
 		case 1:
 			printArrayList(this.salesRecord.getVehicleArrayList());
 			break;
