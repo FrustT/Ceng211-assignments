@@ -2,6 +2,21 @@ package vehiclepricecalculator.classes;
 
 import java.util.Locale;
 
+	/**
+	 * This Class is a sub class of Automobile and more spesified than vehicle.
+	 * Has concrete implementations for abstract class in the superclasses.
+	 * <ul>
+	 * <li><strong>CabType {REGULAR, EXTENDED, CREW}</strong> type: enum
+	 * <li><strong>TruckBedType {REGULAR, TANKER, TRAILER}</strong> type: enum
+	 * <li><strong>cabType</strong> type: CabType
+	 * <li><strong>truckBedType</strong> type: TruckBedType
+	 * </ul>
+	 * @author  Mustafa Fatih Can 280201007
+	 * @author  Deniz Kaya 280201033
+	 * @author  Hakan Uskan 280201076
+	 * @author  Burak Erinç 290201099
+	 */
+
 public class PickupTruckVehicle extends Vehicle {
 	private enum CabType {
 		REGULAR, EXTENDED, CREW
@@ -13,17 +28,39 @@ public class PickupTruckVehicle extends Vehicle {
 
 	private CabType cabType;
 	private TruckBedType truckBedType;
-
+	
+	/**
+	 * <strong>No Argument Constructor</strong><p>
+	 */
+	
 	public PickupTruckVehicle() {
 		this(null);
 	}
-
+	
+	/**
+	 * <strong>Copy Constructor</strong><p>
+	 * Constructs a new PickupTruckVehicle Object with another PickupTruckVehicle Object
+	 * @param _vehicle
+	 */
+	
 	public PickupTruckVehicle(PickupTruckVehicle _vehicle) {
 		super(_vehicle);
 		this.setCabType(_vehicle.getCabType());
 		this.setTruckBedType(_vehicle.getTruckBedType());
 	}
-
+	
+	/**
+	 * <strong>Parameterized Constructor</strong><p>
+	 * Constructs PickupTruckVehicle Object with required data.
+	 * @param _vehicleId
+	 * @param _monthOfSale
+	 * @param _cityOfSale
+	 * @param _productionYear
+	 * @param _valueAddedTax
+	 * @param _cabType
+	 * @param _truckBedType
+	 */
+	
 	public PickupTruckVehicle(String _vehicleId, String _monthOfSale, String _cityOfSale, int _productionYear,
 			int _valueAddedTax, String _cabType, String _truckBedType) {
 		super(_vehicleId, _monthOfSale, _cityOfSale, _productionYear, _valueAddedTax);
@@ -88,14 +125,21 @@ public class PickupTruckVehicle extends Vehicle {
 		return ((truckBedTypeValue * getProductionYearSCTValue()) / cabTypeSCTValue);
 	}
 
+   /**
+    * Gets the Pickup Truck Object's total price value
+    * 
+    * @return double Total price of Pickup Truck.
+	*/
 	public double calculateTotalPrice() {
 		return this.BASE_PRICE * (1.0 + calculateSCT() * 0.6) + (1.0 + getValueAddedTax() / 100.0);
 	}
 
+	@Override
 	public String toString() {
 		return "Vehicle: Pickup Truck " + super.toString();
 	}
-
+	
+	@Override
 	public boolean equals(Object _object) {
 		if (super.equals(_object)) {
 			PickupTruckVehicle pickupTruckVehicle = (PickupTruckVehicle) _object;
@@ -105,6 +149,11 @@ public class PickupTruckVehicle extends Vehicle {
 		return false;
 	}
 
+   /**
+	* Gets the Pickup Truck Object's SCT value based on cab type.
+	* 
+	* @return double SCT value of Pickup Truck's cab type. 
+	*/
 	private double getCabTypeSCTValue() {
 		double cabTypeValue;
 
@@ -125,7 +174,12 @@ public class PickupTruckVehicle extends Vehicle {
 
 		return cabTypeValue;
 	}
-
+	
+   /**
+	* Gets the Pickup Truck Object's SCT value based on bed type.
+	* 
+	* @return double SCT value of Pickup Truck's bed type. 
+	*/
 	private double getTruckBedTypeSCTValue() {
 		double truckBedTypeValue;
 

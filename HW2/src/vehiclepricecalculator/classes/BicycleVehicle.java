@@ -2,6 +2,21 @@ package vehiclepricecalculator.classes;
 
 import java.util.Locale;
 
+	/**
+	 * This Class is a sub class of Vehicle and more spesified than vehicle.
+	 * Has concrete implementations for abstract class in the superclasses.
+	 * <ul>
+	 * <li><strong>ChainType {DERAILLEUR, ONECHAIN, DOUBLECHAIN}</strong> type: enum
+	 * <li><strong>SeatPost {CARBONFIBER, STEEL, ALUMINUM, TITANIUM}</strong> type: enum
+	 * <li><strong>chainType</strong> type: ChainType
+	 * <li><strong>seatPost</strong> type: SeatPost
+	 * </ul>
+	 * @author  Mustafa Fatih Can 280201007
+	 * @author  Deniz Kaya 280201033
+	 * @author  Hakan Uskan 280201076
+	 * @author  Burak Erinç 290201099
+	 */
+
 public class BicycleVehicle extends Vehicle {
 
 	private enum ChainType {
@@ -15,16 +30,35 @@ public class BicycleVehicle extends Vehicle {
 	private ChainType chainType;
 	private SeatPost seatPost;
 
+	/**
+	 * <strong>No Argument Constructor</strong><p>
+	 */
 	public BicycleVehicle() {
 		this(null);
 	}
 
+	/**
+	 * <strong>Copy Constructor</strong><p>
+	 * Constructs a new Vehicle Object with another Vehicle Object
+	 * @param _vehicle
+	 */
 	public BicycleVehicle(BicycleVehicle _vehicle) {
 		super(_vehicle);
 		this.setChainType(_vehicle.getChainType());
 		this.setSeatPost(_vehicle.getSeatPost());
 	}
 
+	/**
+	 * <strong>Parameterized Constructor</strong><p>
+	 * Constructs Vehicle Object with required data.
+	 * @param _vehicleId
+	 * @param _monthOfSale
+	 * @param _cityOfSale
+	 * @param _productionYear
+	 * @param _valueAddedTax
+	 * @param _chainType
+	 * @param _seatPost
+	 */
 	public BicycleVehicle(String _vehicleId, String _monthOfSale, String _cityOfSale, int _productionYear,
 			int _valueAddedTax, String _chainType, String _seatPost) {
 		super(_vehicleId, _monthOfSale, _cityOfSale, _productionYear, _valueAddedTax);
@@ -60,7 +94,7 @@ public class BicycleVehicle extends Vehicle {
 	 * Gets the Bicycle Object's <b>seatPost</b> variable as considering privacy
 	 * leak.
 	 * 
-	 * @return the seatPost
+	 * @return String the seatPost
 	 */
 	public String getSeatPost() {
 		return seatPost.toString();
@@ -76,6 +110,11 @@ public class BicycleVehicle extends Vehicle {
 		this.seatPost = SeatPost.valueOf(_seatPost);
 	}
 
+   /**
+	* Gets the Bicycle Object's SCT value based on bicycle's chain type and seat post.
+	*
+	* @return double SCT value of bicycle. 
+	*/
 	public double calculateSCT() {
 		double chainSCTValue = getChainSCTValue();
 		double seatPostValue = getSeatPostSCTValue();
@@ -86,14 +125,21 @@ public class BicycleVehicle extends Vehicle {
 		return (chainSCTValue * seatPostValue * 0.1) + getMonthOfSaleSCTValue();
 	}
 
+   /**
+    * Gets the Bicycle Object's total price value
+    * 
+    * @return double Total price of bicycle.
+	*/
 	public double calculateTotalPrice() {
 		return (this.BASE_PRICE * 0.9) * (1.0 + calculateSCT()) + (1.0 + getValueAddedTax() / 100.0);
 	}
 
+	@Override
 	public String toString() {
 		return "Vehicle: Bicycle " + super.toString();
 	}
 
+	@Override
 	public boolean equals(Object _object) {
 		if (super.equals(_object)) {
 			BicycleVehicle bicycle = (BicycleVehicle) _object;
@@ -103,6 +149,11 @@ public class BicycleVehicle extends Vehicle {
 		return false;
 	}
 
+   /**
+	* Gets the Bicycle Object's SCT value based on chain type.
+	* 
+	* @return double SCT value of bicycle's chain type. 
+	*/
 	private double getChainSCTValue() {
 		double chainValue;
 		switch (this.chainType) {
@@ -121,6 +172,11 @@ public class BicycleVehicle extends Vehicle {
 		return chainValue;
 	}
 
+   /**
+	* Gets the Bicycle Object's SCT value based on seat post.
+	* 
+	* @return double SCT value of bicycle's seat post. 
+	*/
 	private double getSeatPostSCTValue() {
 		double seatPostSCTValue;
 		switch (this.seatPost) {

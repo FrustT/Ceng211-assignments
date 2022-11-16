@@ -5,9 +5,25 @@ import java.util.Scanner;
 
 import vehiclepricecalculator.classes.*;
 
+	/**
+	 * This Class's responsibility is printing all the Queries returned from the <b>SalesRecord</b> Class
+	 * <ul>
+	 * <li><strong>salesRecord</strong> type: SalesRecord
+	 * </ul>
+	 * @author  Mustafa Fatih Can 280201007
+	 * @author  Deniz Kaya 280201033
+	 * @author  Hakan Uskan 280201076
+	 * @author  Burak Erinç 290201099
+	 */
+
 public class UserInterface {
 	
 	private SalesRecord salesRecord;
+	
+	/**
+	 * <strong>No Argument Constructor</strong><p>
+	 * Creates an initializer object with its no argument constructor and initializes the salesRecord instance variable.
+	 */
 	
 	public UserInterface() {
 		Initializer initializer = new Initializer();
@@ -17,9 +33,8 @@ public class UserInterface {
 	public void printUI(){
 		
 		int choice;
+		Scanner scanner = new Scanner(System.in);
 		do {
-			Scanner scanner = new Scanner(System.in);
-			
 			System.out.println("Please press, ");
 			System.out.println("1 to see all sold vehicle list");
 			System.out.println("2 to see sold sedan list");
@@ -37,6 +52,7 @@ public class UserInterface {
 			printRequiredList(choice);
 		} 
 		while(choice != 0);
+		scanner.close();
 		System.out.println("Exiting...");
 	}
 	
@@ -60,6 +76,9 @@ public class UserInterface {
 		case 6:
 			printArrayList(this.salesRecord.getBicyclesAsArrayList());
 			break;
+		default:
+		    	System.out.println("Invalid input");
+		    	break;
 		}
 	}
 	

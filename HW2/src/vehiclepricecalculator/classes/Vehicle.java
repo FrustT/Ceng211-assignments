@@ -5,11 +5,29 @@ import java.time.Month;
 
 import vehiclepricecalculator.interfaces.VehicleInterface;
 
+    /**
+	 * This Class is not a concrete implementation and has most general description about implementations.
+	 * We will spesify them later in creation of the classes
+	 * <ul>
+	 * <li><strong>CityName {IZMIR, ISTANBUL, ANKARA}</strong> type: enum
+	 * <li><strong>vehicleId</strong> type: String
+	 * <li><strong>monthOfSale</strong> type: Month
+	 * <li><strong>cityOfSale</strong> type: CityName
+	 * <li><strong>productionYear</strong> type: int
+	 * <li><strong>valueAddedTax</strong> type: int
+	 * <li><strong>BASE_PRICE</strong> type: int
+	 * </ul>
+	 * @author  Mustafa Fatih Can 280201007
+	 * @author  Deniz Kaya 280201033
+	 * @author  Hakan Uskan 280201076
+	 * @author  Burak Erinç 290201099
+	 */
+
 public abstract class Vehicle implements VehicleInterface {
 
 	private enum CityName {
 		IZMIR, ISTANBUL, ANKARA
-	};
+	}
 
 	private String vehicleId;
 	private Month monthOfSale;
@@ -26,7 +44,9 @@ public abstract class Vehicle implements VehicleInterface {
 	}
 
 	/**
-	 * <b>Copy Constructor</b>
+	 * <strong>Copy Constructor</strong><p>
+	 * Constructs a new Vehicle Object with another Vehicle Object
+	 * @param _vehicle
 	 */
 	public Vehicle(Vehicle _vehicle) {
 		this(_vehicle.getVehicleID(), _vehicle.getMonthOfSale(), _vehicle.getCityOfSale(),
@@ -34,7 +54,13 @@ public abstract class Vehicle implements VehicleInterface {
 	}
 
 	/**
-	 * <b>Parameterized Constructor</b>
+	 * <strong>Parameterized Constructor</strong><p>
+	 * Constructs Vehicle Object with required data.
+	 * @param _vehicleId
+	 * @param _monthOfSale
+	 * @param _cityOfSale
+	 * @param _productionYear
+	 * @param _valueAddedTax
 	 */
 	public Vehicle(String _vehicleId, String _monthOfSale, String _cityOfSale, int _productionYear,
 			int _valueAddedTax) {
@@ -109,12 +135,14 @@ public abstract class Vehicle implements VehicleInterface {
 
 	public abstract double calculateTotalPrice();
 
+	@Override
 	public String toString() {
 		return "Vehicle ID:" + getVehicleID() + "  // Month:" + getMonthOfSale() + " // City:" + getCityOfSale()
 				+ "  // Production Year:" + getProductionYearOfVehicle() + " // SCT:" + calculateSCT()
 				+ " // Total Price: " + calculateTotalPrice();
 	}
 
+	@Override
 	public boolean equals(Object _object) {
 		if (_object == null)
 			return false;
@@ -127,6 +155,11 @@ public abstract class Vehicle implements VehicleInterface {
 				&& _vehicle.getProductionYearOfVehicle() == this.getProductionYearOfVehicle()
 				&& _vehicle.getValueAddedTax() == this.getValueAddedTax();
 	}
+	
+	/**
+	 * Calculates the month of sale sct value of the vehicle according to its month of sale.
+	 * @return double month of sale sct value
+	 */
 	protected double getMonthOfSaleSCTValue() {
 		switch (this.monthOfSale) {
 		case AUGUST:
@@ -143,7 +176,11 @@ public abstract class Vehicle implements VehicleInterface {
 			return -1.0;
 		}
 	}
-
+	
+	/**
+	 * Calculates the production year sct value of the vehicle according to its production year.
+	 * @return int production year sct value.
+	 */
 	protected double getProductionYearSCTValue() {
 		double productionYearSCTValue = 0.0;
 		int year = this.getProductionYearOfVehicle();

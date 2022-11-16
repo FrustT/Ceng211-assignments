@@ -1,20 +1,52 @@
 package vehiclepricecalculator.classes;
 
-
+	/**
+	 * This Class is a sub class of Automobile and it is more spesified than Automobile.
+	 * Has concrete implementations for abstract methods in the superclasses.
+	 * <ul>
+	 * <li><strong>NumberOfSeats {FOUR, FIVE, SIX, SEVEN}</strong> type: enum
+	 * <li><strong>numberOfSeats</strong> type: NumberOfSeats
+	 * </ul>
+	 * @author  Mustafa Fatih Can 280201007
+	 * @author  Deniz Kaya 280201033
+	 * @author  Hakan Uskan 280201076
+	 * @author  Burak Erinç 290201099
+	 */
 public class MinivanVehicle extends Automobile{
 	private enum NumberOfSeats {FOUR, FIVE, SIX, SEVEN}
 	
 	private NumberOfSeats numberOfSeats;
 	
+	/**
+	 * <strong>No Argument Constructor</strong><p>
+	 */
 	public MinivanVehicle()
 	{
 		this(null);
 	}
 	
+	/**
+	 * <strong>Copy Constructor</strong><p>
+	 * Constructs a new MinivanVehicle Object with another MinivanVehicle Object
+	 * @param _vehicle
+	 */
+	
 	public MinivanVehicle(MinivanVehicle _vehicle) {
 		super(_vehicle);
 		this.setNumberOfSeats(_vehicle.getNumberOfSeats());
 	}
+	
+	/**
+	 * <strong>Parameterized Constructor</strong><p>
+	 * Constructs MinivanVehicle Object with required data.
+	 * @param _vehicleId
+	 * @param _monthOfSale
+	 * @param _cityOfSale
+	 * @param _productionYear
+	 * @param _valueAddedTax
+	 * @param _numberOfSeats
+	 * @param _engineVolume
+	 */
 	
 	public MinivanVehicle(String _vehicleId, String _monthOfSale, String _cityOfSale, int _productionYear, int _valueAddedTax, int _numberOfSeats, double _engineVolume) {
 		super(_vehicleId, _monthOfSale, _cityOfSale, _productionYear, _valueAddedTax, _engineVolume);
@@ -66,14 +98,20 @@ public class MinivanVehicle extends Automobile{
 		}
 	}
 	
+       /**
+	* Gets the SCT value of minivan vehicle.
+	* @return double value of SCT
+	*/
 	public double calculateSCT() {
 		return (0.6 * getProductionYearSCTValue())/(getEngineVolume() + getNumberOfSeatsSCTValue());
 	}
 	
+	@Override
 	public String toString() {
 		return "Vehicle: Minivan " + super.toString();
 	}
 	
+	@Override
 	public boolean equals(Object _object) {
 		if(super.equals(_object)) {
 			MinivanVehicle minivanVehicle = (MinivanVehicle) _object;
@@ -82,6 +120,10 @@ public class MinivanVehicle extends Automobile{
 		return false;
 	}
 	
+       /**
+	* Gets the SCT value of minivan based on its number of seats. 
+	* @return double value of SCT.
+	*/
 	private double getNumberOfSeatsSCTValue() {
 		switch(this.numberOfSeats) {
 		case FIVE:

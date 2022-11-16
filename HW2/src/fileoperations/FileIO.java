@@ -7,17 +7,28 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 /**
+ * This class handles all of the file reading operations of the program.
+ * <p>
+ * Reads the data that is used to initialize program's data holder class Initializer
  * 
- *
+ * <ul>
+ * <li>{@link #getAllSalesAsArrayList() getAllSalesAsArrayList()}
+ * </ul> 
+ * @author  Mustafa Fatih Can 280201007
+ * @author  Deniz Kaya 280201033
+ * @author  Hakan Uskan 280201076
+ * @author  Burak Erinc 290201099
  */
 public class FileIO {
 	
+    /**
+	* Gets the all vehicles from the csv file as ArrayList.
+	*/
 	public static ArrayList<Vehicle> getAllSalesAsArrayList() {
 		ArrayList<Vehicle> vehicleArrayList = new ArrayList<Vehicle>();
 		try {
 			File file = new File("Files/HW2_SoldVehicles.csv");
 			Scanner scanner = new Scanner(file);
-			//Builder builder = new Builder();
 			while (scanner.hasNextLine()) {
 				String newData = scanner.nextLine();
 				String firstLetter = newData.substring(0,1);
@@ -37,6 +48,8 @@ public class FileIO {
 				case "P":
 					vehicleArrayList.add(VehicleBuilder.createPickupTruckVehicle(newData));
 					break;
+				default:
+				    System.out.println("Invalid input");
 				}
 			}
 			scanner.close();

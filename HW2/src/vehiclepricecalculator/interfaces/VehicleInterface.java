@@ -1,18 +1,17 @@
 package vehiclepricecalculator.interfaces;
 
-import java.time.LocalDate;
-
 /**
  * An interface for our Base class(Superclass) Vehicle which is ancestor of all of our Vehicle Classes   
- * @author burak
- *
+ * @author  Mustafa Fatih Can 280201007
+ * @author  Deniz Kaya 280201033
+ * @author  Hakan Uskan 280201076
+ * @author  Burak Erinc 290201099
  */
 public interface VehicleInterface {
 	
-	
 	/**
 	 * Sets Vehicle Object's id with given input string after checking for validity.
-	 * @param String _ID
+	 * @param _ID
 	 */
 	public void setVehicleID(String _ID);
 	
@@ -24,7 +23,7 @@ public interface VehicleInterface {
 	
 	/**
 	 * Sets Vehicle Object's City of sale variable with given input string after checking for validity.
-	 * @param String _cityOfSale
+	 * @param _cityOfSale
 	 */
 	public void setCityOfSale(String _cityOfSale);
 	
@@ -35,27 +34,50 @@ public interface VehicleInterface {
 	public String getCityOfSale();
 	
 	/**
-	 * Sets Vehicle Object's <b>month of sale></b> variable with given LocalDate Object after checking for validity.
-	 * @param LocalDate _monthOfSale
+	 * Sets Vehicle Object's <b>month of sale></b> variable with given String after checking for validity.
+	 * @param _monthOfSale
 	 */
 	public void setMonthOfSale(String _monthOfSale);
 	
 	/**
 	 * Gets Vehicle Object's <b>month of sale></b> variable as considering privacy leak.
-	 * @return LocalDate month of sale
+	 * @return String month of sale
 	 */
 	public String getMonthOfSale();
 	
 	/**
-	 * Sets Vehicle Object's <b>ProductionYear</b> variable with given LocalDate Object after checking for validity.
-	 * @param LocalDate _year
+	 * Sets Vehicle Object's <b>ProductionYear</b> variable with given integer after checking for validity.
+	 * @param _year
 	 */
 	public void setProductionYearOfVehicle(int _year);
 	
 	/**
 	 * Gets Vehicle Object's <b>ProductionYear</b> variable as considering privacy leak.
-	 * @return LocalDate Production year of vehicle
+	 * @return int Production year of vehicle
 	 */
 	public int getProductionYearOfVehicle();
 	
+	/**
+	 * Gets Vehicle's <b>Value added tax</b> variable.
+	 * @return int Value added tax of vehicle
+	 */
+	public int getValueAddedTax();
+	
+	/**
+	 * Sets Vehicle's <b>Value added tax</b> variable.
+	 * @param int _valueAddedTax
+	 */
+	public void setValueAddedTax(int _valueAddedTax);
+	
+	/**
+	 * Calculates Vehicle's <b>SCT</b> value.
+	 * @return SCT of vehicle as double.
+	 */
+	public double calculateSCT();
+	
+	/**
+	 * Calculates Vehicle's <b>Total price</b> value.
+	 * @return Total price of vehicle as double.
+	 */
+	public double calculateTotalPrice();
 }
