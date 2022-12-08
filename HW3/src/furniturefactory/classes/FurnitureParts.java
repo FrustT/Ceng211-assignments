@@ -1,5 +1,5 @@
 package furniturefactory.classes;
 
-public class Display {
+public class FurnitureParts {
 	
 }
