@@ -2,30 +2,32 @@ package furniturefactory.classes;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class RawMaterialProperties {
-	private List<Data> propertiesList;
+	private List<MaterialData> propertiesList;
 	
-	public RawMaterialProperties(int rowCount, int columnCount) {
-		propertiesList = new ArrayList<Data>();
+	public RawMaterialProperties() {
+		propertiesList = new ArrayList<MaterialData>();
 	}
 	
-	public void addPropertiesRow(Data data) {
+	public void addPropertiesRow(MaterialData data) {
 		propertiesList.add(data);
 	}
 	
-	public Data getPropertiesDataFromID(String ID) {
-		MaterialID enumID = MaterialID.valueOf(ID.toUpperCase(Locale.ROOT));
-		Data returnedData = null;
-		for(Data data:propertiesList) {
-			if(data.getID().equals(enumID)) {
+	public MaterialData getPropertiesDataFromID(MaterialID ID) {
+		MaterialData returnedData = null;
+		for(MaterialData data:propertiesList) {
+			if(data.getID().equals(ID)) {
 				returnedData = data;
 				break;
 			}
 		}
 		
 		return returnedData;
+	}
+
+	public List<MaterialData> getList(){
+		return propertiesList;
 	}
 	
 }

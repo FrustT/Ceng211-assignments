@@ -2,9 +2,9 @@ package furniturefactory.classes;
 
 import java.util.Locale;
 
-public abstract class Material {
+public class Material {
 
-	private MaterialID materialID;
+	private MaterialID ID;
 	private int quality;
 	private int length;
 	private int width;
@@ -15,18 +15,22 @@ public abstract class Material {
 		//TODO
 	}
 
-	public Material(String _materialID, int _quality, int _length, int _width, int _height, int _cost) {
-		this.materialID = MaterialID.valueOf(_materialID.toUpperCase(Locale.ROOT));
+	public Material(MaterialID _materialID, int _length, int _width, int _height, int _cost , int _quality) {
+		this.ID = _materialID;
 		this.length = _length;
 		this.width = _width;
 		this.height = _height;
 		this.cost = _cost;
 		this.quality = _quality;
 	}
-
+	
+	public Material(MaterialData data,int _quality){
+		this(data.getID(), data.getLength(), data.getWidth(), data.getHeight(), data.getCost(), _quality);
+	}
+	
 	public Material(Material _material) {
-		this(_material.getMaterialID().toString(), _material.getQuality(), _material.getLength(), _material.getWidth(),
-				_material.getHeight(), _material.getCost());
+		this(_material.getID(), _material.getLength(), _material.getWidth(),
+			 _material.getHeight(), _material.getCost(),_material.getQuality());
 	}
 
 	public int getQuality() {
@@ -39,12 +43,12 @@ public abstract class Material {
 		this.quality = _quality;
 	}
 
-	public MaterialID getMaterialID() {
-		return materialID;
+	public MaterialID getID() {
+		return ID;
 	}
 
-	public void setMaterialID(String materialID) {
-		this.materialID = MaterialID.valueOf(materialID.toUpperCase(Locale.ROOT));
+	public void setID(String materialID) {
+		this.ID = MaterialID.valueOf(materialID.toUpperCase(Locale.ROOT));
 	}
 
 	public int getLength() {
@@ -77,6 +81,12 @@ public abstract class Material {
 
 	public void setCost(int cost) {
 		this.cost = cost;
+	}
+	
+	@Override
+	public String toString() {
+		return "Material ID: " + ID + " Material length: " + length + " Material width: " + width +
+			  " Material height: " + height + " Material cost: " + cost + " Material quality: " + quality;
 	}
 
 }
