@@ -1,16 +1,14 @@
-package furniturefactory.classes;
+package furniturefactory.dataclasses;
 
-public class Data {
+public class MaterialData {
 
 	private MaterialID ID;
-	
-
 	private int length;
 	private int width;
 	private int height;
 	private int cost;
 	
-	public Data(MaterialID ID ,int length, int width, int height, int cost){
+	public MaterialData(MaterialID ID ,int length, int width, int height, int cost){
 		this.ID = ID;
 		this.length = length;
 		this.width = width;
