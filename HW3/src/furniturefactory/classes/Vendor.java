@@ -1,63 +1,34 @@
 package furniturefactory.classes;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import furniturefactory.adt.KeyedDequePairList;
+import furniturefactory.dataclasses.MaterialID;
 import furniturefactory.interfaces.*;
 
 public class Vendor implements IVendor {
-	private List<Deque<Material>> materials;
-	
+	public IKeyedDequePairList<MaterialID, Material> materials;//TODO private yap
+
 	public Vendor() {
-		materials = new ArrayList<Deque<Material>>();
+		this.materials = new KeyedDequePairList<>();
 	}
-	
+
 	public void addMaterial(Material material) {
-		Deque<Material> appropriateDeque = findAppropriateDeque(material.getID());
-		if(appropriateDeque == null) {
-			Deque<Material> addedDeque = new Deque<Material>();
-			addedDeque.add(material);
-			materials.add(addedDeque);
-			return;
-		}
-		appropriateDeque.add(material);
-		
-	}
-	
-	public Material getFirstOccurrence(MaterialID ID) {
-		Deque<Material> materialsDeque =this.findAppropriateDeque(ID);
-		if(materialsDeque == null)return null;
-		return materialsDeque.removeFirst();
-	}
-	
-	public Material getLastOccurrence(MaterialID ID) {
-		Deque<Material> materialsDeque =this.findAppropriateDeque(ID);
-		if(materialsDeque == null)return null;
-		return materialsDeque.removeLast();
+		materials.addElement(material.getID(), material);
 	}
 
-	
-	public Material PeekFirstOccurence(MaterialID ID) {
-		Deque<Material> materialsDeque =this.findAppropriateDeque(ID);
-		if(materialsDeque == null)return null;
-		return materialsDeque.peekFirst();
+	public Material removeFirstOccurrence(MaterialID ID) {
+		return materials.removeFirstOccurrence(ID);
 	}
 
-	
-	public Material PeekLastOccurence(MaterialID ID) {
-		Deque<Material> materialsDeque =this.findAppropriateDeque(ID);
-		if(materialsDeque == null)return null;
-		return materialsDeque.peekLast();
+	public Material removeLastOccurrence(MaterialID ID) {
+		return materials.removeLastOccurrence(ID);
 	}
-	
-	public Deque<Material> findAppropriateDeque(MaterialID ID) {//Returns null if no appropriate deque exists.
-		Deque<Material> returned = null;
-		for(Deque<Material> deque: materials) {
-			if(deque.peekFirst().getID().equals(ID)) {
-				returned = deque;
-			}
-		}
-		return returned;
+
+	public Material peekFirstOccurence(MaterialID ID) {
+		return materials.peekFirstOccurence(ID);
 	}
-	
+
+	public Material peekLastOccurence(MaterialID ID) {
+		return materials.peekLastOccurence(ID);
+	}
+
 }

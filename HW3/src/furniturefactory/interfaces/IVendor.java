@@ -1,13 +1,14 @@
 package furniturefactory.interfaces;
 import furniturefactory.classes.Material;
-import furniturefactory.classes.MaterialID;
+import furniturefactory.dataclasses.MaterialID;
 
 public interface IVendor {
 	public void addMaterial(Material material);
 	
-	public Material getFirstOccurrence(MaterialID ID);
-	public Material getLastOccurrence(MaterialID ID);
+	public Material removeFirstOccurrence(MaterialID ID);
+	public Material removeLastOccurrence(MaterialID ID);
 	
-	public Material PeekFirstOccurence(MaterialID ID);
-	public Material PeekLastOccurence(MaterialID ID);
+	public Material peekFirstOccurence(MaterialID ID);
+	public Material peekLastOccurence(MaterialID ID);
+	
 }

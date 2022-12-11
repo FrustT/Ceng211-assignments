@@ -1,9 +1,11 @@
 package furniturefactoryapp;
 
-import java.util.List;
-
 import fileoperations.FileIO;
 import furniturefactory.classes.*;
+import furniturefactory.dataclasses.MaterialID;
+import furniturefactory.dataclasses.RawMaterialProperties;
+import furniturefactory.interfaces.IDeque;
+import furniturefactory.interfaces.IVendor;
 
 public class FurnitureFactoryApp {
 
@@ -12,10 +14,9 @@ public class FurnitureFactoryApp {
 	    
 	    RawMaterialProperties data = FileIO.getRawMaterialPropertiesFromFile("Files/RawMaterialProperties.csv");
 	    
-	    Vendor vendor = FileIO.getVendorFromFile("Files/VendorPossessions.csv", data);
+	    Vendor vendor = (Vendor) FileIO.getVendorFromFile("Files/VendorPossessions.csv", data);
 	    
-	    System.out.println();
-	    Deque<Material> deque = vendor.findAppropriateDeque(MaterialID.PL013);
+	    IDeque<Material> deque = vendor.materials.findAppropriateDequePair(MaterialID.WP403).getSecond();
 		int length = deque.getLength();
 		for(int i = 0; i < length; i++) {
 			System.out.println(deque.removeFirst());

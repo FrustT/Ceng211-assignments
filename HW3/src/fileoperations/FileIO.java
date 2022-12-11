@@ -8,16 +8,29 @@ import java.util.Locale;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
+import furniturefactory.adt.Pair;
 import furniturefactory.classes.*;
+import furniturefactory.dataclasses.FurnitureData;
+import furniturefactory.dataclasses.FurnitureID;
+import furniturefactory.dataclasses.FurnitureParts;
+import furniturefactory.dataclasses.MaterialData;
+import furniturefactory.dataclasses.MaterialID;
+import furniturefactory.dataclasses.RawMaterialProperties;
+import furniturefactory.interfaces.*;
 
 public class FileIO {
+
+	private FileIO() {//To prevent any initialization of FileIO
+	}
+		
+	private static final String LINE_SEPERATOR = "\r?\n";
 
 	public static RawMaterialProperties getRawMaterialPropertiesFromFile(String path) {
 
 		String fileContent = readFileAsString(path);
 
 		// This tokenizer's responsibility is gathering next data line
-		StringTokenizer newLineTokenizer = new StringTokenizer(fileContent, "\r?\n");
+		StringTokenizer newLineTokenizer = new StringTokenizer(fileContent, LINE_SEPERATOR);
 		// This tokenizer's responsibility is gathering next data in one object's line
 		// Since every line will be different so each inLineTokenizer needs to
 		// initialize in the loop
@@ -45,7 +58,7 @@ public class FileIO {
 		String fileContent = readFileAsString(path);
 
 		// This tokenizer's responsibility is gathering next data line
-		StringTokenizer newLineTokenizer = new StringTokenizer(fileContent, "\r?\n");
+		StringTokenizer newLineTokenizer = new StringTokenizer(fileContent, LINE_SEPERATOR);
 		// This tokenizer's responsibility is gathering next data in one object's line
 		// Since every line will be different so each inLineTokenizer needs to
 		// initialize in the loop
@@ -56,13 +69,13 @@ public class FileIO {
 		for (int i = 0; i < tokenCount; i++) {
 			inLineTokenizer = new StringTokenizer(newLineTokenizer.nextToken(), ",");
 			FurnitureID id = FurnitureID.valueOf(inLineTokenizer.nextToken().toUpperCase(Locale.ROOT));
-			List<Pair<MaterialID, Integer>> requirementPairs = new ArrayList<Pair<MaterialID, Integer>>();
+			List<Pair<MaterialID, Integer>> requirementPairs = new ArrayList<>();
 
 			while (inLineTokenizer.hasMoreTokens()) {
 
 				MaterialID materialID = MaterialID.valueOf(inLineTokenizer.nextToken().toUpperCase(Locale.ROOT));
 				int count = Integer.parseInt(inLineTokenizer.nextToken());
-				Pair<MaterialID, Integer> materialWithCount = new Pair<MaterialID, Integer>(materialID, count);
+				Pair<MaterialID, Integer> materialWithCount = new Pair<>(materialID, count);
 				requirementPairs.add(materialWithCount);
 			}
 
@@ -73,18 +86,18 @@ public class FileIO {
 		return result;
 	}
 
-	public static Vendor getVendorFromFile(String path, RawMaterialProperties MaterialData) {
+	public static IVendor getVendorFromFile(String path, RawMaterialProperties MaterialData) {
 
 		String fileContent = readFileAsString(path);
 
 		// This tokenizer's responsibility is gathering next data line
-		StringTokenizer newLineTokenizer = new StringTokenizer(fileContent, "\r?\n");
+		StringTokenizer newLineTokenizer = new StringTokenizer(fileContent, LINE_SEPERATOR);
 		// This tokenizer's responsibility is gathering next data in one object's line
 		// Since every line will be different so each inLineTokenizer needs to
 		// initialize in the loop
 		StringTokenizer inLineTokenizer;
 
-		Vendor result = new Vendor();
+		IVendor result = new Vendor();
 		int tokenCount = newLineTokenizer.countTokens();
 		for (int i = 0; i < tokenCount; i++) {
 			inLineTokenizer = new StringTokenizer(newLineTokenizer.nextToken(), ",");
@@ -111,18 +124,25 @@ public class FileIO {
 	 */
 	private static String readFileAsString(String _path) {
 		String content = "";
-
-		try {
-			Scanner s = new Scanner(new FileReader(_path)).useDelimiter("\\A");
+		try (Scanner s = new Scanner(new FileReader(_path)).useDelimiter("\\A")) {//Try-with-resources automatically closes the scanner
 			content = s.next();
-			s.close();
+			
 		} catch (FileNotFoundException e) {
 			System.out.println("The file you requested has not found.");
 			e.printStackTrace();
-
 		}
-
+		
 		return content;
 	}
-
+/********************************TODO*********************************************
+	Farklı günler arraylistin içerisine konur
+	bu günler içerisinde 2 data tutar
+	1-o gün alıncak materialler Deque
+	2-o gün yapılacak işler deque
+	
+	1'in içerinse pair olacak pairin ilk değeri material id 2. ise count
+	2'nin içeriinde pair olacak ilk değeri furniture id 2. ise count
+	
+	her bir gün başlangıcında gidilip o günün pairini getiricek.
+	************************************************************************/
 }
