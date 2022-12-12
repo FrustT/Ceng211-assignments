@@ -8,25 +8,21 @@ public class Manufacturer2 extends Manufacturer {
 
 	public Manufacturer2(FurnitureParts instructions) {
 		super(instructions);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public FurnitureData takeOrder() {
-		// TODO Auto-generated method stub
-		return null;
+	public FurnitureData takeOrder() {//FIFO
+		return this.getOrders().removeFirst();
 	}
 
 	@Override
 	public FurnitureData peekOrder() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getOrders().peekFirst();
 	}
 
 	@Override
-	public Material getMaterial(MaterialID ID) {
-		// TODO Auto-generated method stub
-		return null;
+	public Material getMaterial(MaterialID ID) {//LIFO
+		return this.getSupplies().findAppropriateDequePair(ID).getSecond().removeLast();
 	}
 
 }

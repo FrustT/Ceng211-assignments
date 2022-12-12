@@ -5,7 +5,7 @@ import furniturefactory.dataclasses.MaterialID;
 import furniturefactory.interfaces.*;
 
 public class Vendor implements IVendor {
-	public IKeyedDequePairList<MaterialID, Material> materials;//TODO private yap
+	private IKeyedDequePairList<MaterialID, Material> materials;
 
 	public Vendor() {
 		this.materials = new KeyedDequePairList<>();

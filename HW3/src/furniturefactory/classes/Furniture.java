@@ -14,7 +14,7 @@ public abstract class Furniture {
 	private int profit;
 	private float profitMargin;
 
-	public Furniture(FurnitureID id, List<Material> materials) {
+	protected Furniture(FurnitureID id, List<Material> materials) {
 		this.setId(id);
 		List<Material> temp = new ArrayList<>();
 		for (Material material : materials) {

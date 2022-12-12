@@ -15,7 +15,7 @@ public abstract class Manufacturer {
 	private IDeque<FurnitureData> leftOverOrders;
 	private FurnitureParts instructions;
 
-	public Manufacturer(FurnitureParts instructions) {
+	protected Manufacturer(FurnitureParts instructions) {
 		supplies = new KeyedDequePairList<>();
 		orders = new Deque<>();
 		leftOverOrders = new Deque<>();
