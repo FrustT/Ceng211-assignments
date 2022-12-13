@@ -17,7 +17,7 @@ public class Shelf extends Furniture {
 	}
 	
 	
-	public float initializeProfitMargin() {
+	public int getProfitMargin() {
 		return 280;
 	}
 

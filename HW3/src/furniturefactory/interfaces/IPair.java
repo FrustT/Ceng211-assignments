@@ -2,8 +2,11 @@ package furniturefactory.interfaces;
 
 public interface IPair<T, K> {
 
-	T getFirst();
+	public T getFirst();
 
-	K getSecond();
-
+	public K getSecond();
+	
+	public void setFirst(T first);
+	
+	public void setSecond(K second);
 }

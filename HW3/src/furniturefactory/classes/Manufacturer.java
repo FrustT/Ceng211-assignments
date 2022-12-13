@@ -24,7 +24,7 @@ public abstract class Manufacturer {
 
 	public Furniture processOrder() {
 		FurnitureData order = this.takeOrder();
-		if (!hasEnoughSupplies()) {
+		if (!hasEnoughSupplies(order)) {
 			this.leftOverOrders.add(order);
 			return null;
 		}
@@ -88,6 +88,18 @@ public abstract class Manufacturer {
 		return supplies;
 	}
 
+	public IDeque<FurnitureData> getLeftOverOrders() {
+		List<FurnitureData> temp = new ArrayList<FurnitureData>();
+		IDeque<FurnitureData> returned = new Deque<>();
+		for(int i = 0; i < this.leftOverOrders.getLength(); i++) {
+			temp.add(this.leftOverOrders.removeFirst());
+		}
+		for(FurnitureData order: temp) {
+			this.leftOverOrders.add(new FurnitureData(order));
+			returned.add(new FurnitureData(order));
+		}
+		return this.leftOverOrders;
+	}
 	public IDeque<FurnitureData> getOrders() {
 		return orders;
 	}
@@ -96,14 +108,14 @@ public abstract class Manufacturer {
 		return instructions;
 	}
 
-	public boolean hasEnoughSupplies() {
-		FurnitureData data = peekOrder();
+	public boolean hasEnoughSupplies(FurnitureData data) {
 		List<Pair<MaterialID, Integer>> neededMaterialsPairs = data.getRequirementList();
 		for (Pair<MaterialID, Integer> pair : neededMaterialsPairs) {
 			int neededAmount = pair.getSecond();
 			int materialInStock = this.supplies.findAppropriateDequePair(pair.getFirst()).getSecond().getLength();
-			if (neededAmount > materialInStock)
+			if (neededAmount > materialInStock) {
 				return false;
+			}
 		}
 		return true;
 	}

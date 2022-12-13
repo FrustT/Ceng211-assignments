@@ -28,7 +28,9 @@ public class Deque<T> implements IDeque<T> {
 	}
 
 	public T removeFirst() { // Removes the first element from the list
-		assert(!isEmpty());
+		if(isEmpty()) {
+			return null;
+		}
 		T removed = firstNode.data;
 		if(firstNode == lastNode) {
 			firstNode = null;
@@ -76,7 +78,7 @@ public class Deque<T> implements IDeque<T> {
 	}
 
 	public boolean isEmpty() {
-		return numberOfEntries == 0;
+		return numberOfEntries <= 0;
 	}
 
 	public T[] toArray() {

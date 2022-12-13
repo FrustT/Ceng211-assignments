@@ -15,7 +15,7 @@ public class Wardrobe extends Furniture {
 		super(wardrobe);
 	}
 	
-	public float initializeProfitMargin() {
+	public int getProfitMargin() {
 		return 320;
 	}
 

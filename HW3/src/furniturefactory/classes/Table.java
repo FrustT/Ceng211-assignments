@@ -14,7 +14,7 @@ public class Table extends Furniture {
 		super(table);
 	}
 
-	public float initializeProfitMargin() {
+	public int getProfitMargin() {
 		return 300;
 	}
 

@@ -11,7 +11,8 @@ public class FurnitureFactoryApp {
 	public static void main(String[] args) {
 
 		Simulator sim =new Simulator();
-		Initializer init = sim.getInitializer();
+		sim.simulateDayOne();
+		/*Initializer init = sim.getInitializer();
 		for (List<Pair<FurnitureID, Integer>> f : init.getManufacturer1FurnituresToCraft()) {
 			for (Pair<FurnitureID, Integer> h : f) {
 				System.out.println(h.getFirst());
@@ -34,7 +35,7 @@ public class FurnitureFactoryApp {
 			for (Pair<MaterialID, Integer> h : f) {
 				System.out.println(h.getFirst());
 			}
-		}
+		}*/
 
 		/*
 		 * RawMaterialProperties data =
