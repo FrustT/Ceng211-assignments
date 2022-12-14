@@ -10,21 +10,40 @@ import java.util.StringTokenizer;
 
 import furniturefactory.adt.Pair;
 import furniturefactory.classes.*;
-import furniturefactory.dataclasses.FurnitureData;
-import furniturefactory.dataclasses.FurnitureID;
-import furniturefactory.dataclasses.FurnitureParts;
-import furniturefactory.dataclasses.MaterialData;
-import furniturefactory.dataclasses.MaterialID;
-import furniturefactory.dataclasses.RawMaterialProperties;
+import furniturefactory.dataclasses.*;
 import furniturefactory.interfaces.*;
 
+/**
+ * This class is the layer for the external datas'
+ * 
+ * <ul>
+ * <li><strong>LINE_SEPERATOR</strong> type: String
+ * </ul>
+ * 
+ * @author Mustafa Fatih Can 280201007
+ * @author Deniz Kaya 280201033
+ * @author Hakan Uskan 280201076
+ * @author Burak Erinc 290201099
+ */
 public class FileIO {
 
-	private FileIO() {// To prevent any initialization of FileIO
+	/**
+	 * <strong>No Argument Constructor</strong>
+	 * <p>
+	 * To prevent any initialization of FileIO
+	 */
+	private FileIO() {
 	}
 
 	private static final String LINE_SEPERATOR = "\r?\n";
 
+	/**
+	 * Gets the raw material properties from the csv and creates a raw material
+	 * properties and return it.
+	 * 
+	 * @param String path
+	 * @return RawMaterialProperties
+	 */
 	public static RawMaterialProperties getRawMaterialPropertiesFromFile(String path) {
 
 		String fileContent = readFileAsString(path);
@@ -53,6 +72,13 @@ public class FileIO {
 		return result;
 	}
 
+	/**
+	 * Reads the furniture parts from the csv and creates a furniture parts object
+	 * and returns it.
+	 * 
+	 * @param String path
+	 * @return FurnitureParts
+	 */
 	public static FurnitureParts getFurniturePartsFromFile(String path) {
 
 		String fileContent = readFileAsString(path);
@@ -86,6 +112,14 @@ public class FileIO {
 		return result;
 	}
 
+	/**
+	 * Reads the csv and gets raw material properties as argument and returns the
+	 * created IVendor object.
+	 * 
+	 * @param String       path
+	 * @param MaterialData
+	 * @return
+	 */
 	public static IVendor getVendorFromFile(String path, RawMaterialProperties MaterialData) {
 
 		String fileContent = readFileAsString(path);
@@ -111,6 +145,13 @@ public class FileIO {
 		return result;
 	}
 
+	/**
+	 * Gets all the needed furnitures to craft from the csv and sets the appropriate
+	 * indexes with them.(index 0 is the day 1 etc.)
+	 * 
+	 * @param String path
+	 * @return List<Pair<FurnitureID, Integer>>[] furnituresToCraft
+	 */
 	public static List<Pair<FurnitureID, Integer>>[] getFurnituresToCraft(String path) {
 
 		String fileContent = readFileAsString(path);
@@ -139,6 +180,13 @@ public class FileIO {
 		return result;
 	}
 
+	/**
+	 * Gets all the needed materials to buy from the csv and sets the appropriate
+	 * indexes with them.(index 0 is the day 1 etc.)
+	 * 
+	 * @param String path
+	 * @return List<Pair<MaterialID, Integer>>[] materialsToBuy
+	 */
 	public static List<Pair<MaterialID, Integer>>[] getMaterialsToBuy(String path) {
 
 		String fileContent = readFileAsString(path);
@@ -168,14 +216,11 @@ public class FileIO {
 	}
 
 	/**
-	 * For reading CSV files, gathering line count was important for initializing
-	 * correct size array. So, Buffer reading approach has been implemented.
-	 * <p>
 	 * This class uses a special delimiter "\\A" that indicates file's starting
 	 * point. So , this delimiter ensures that we will only get one token from the
 	 * scanner.
 	 * 
-	 * @param_path path of the file.
+	 * @param _path path of the file.
 	 * @return String Contents of the file.
 	 */
 	private static String readFileAsString(String _path) {
@@ -191,14 +236,4 @@ public class FileIO {
 
 		return content;
 	}
-	/********************************
-	 * TODO********************************************* Farklı günler arraylistin
-	 * içerisine konur bu günler içerisinde 2 data tutar 1-o gün alıncak materialler
-	 * Deque 2-o gün yapılacak işler deque
-	 * 
-	 * 1'in içerinse pair olacak pairin ilk değeri material id 2. ise count 2'nin
-	 * içeriinde pair olacak ilk değeri furniture id 2. ise count
-	 * 
-	 * her bir gün başlangıcında gidilip o günün pairini getiricek.
-	 ************************************************************************/
 }

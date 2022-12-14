@@ -4,10 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 import furniturefactory.interfaces.*;
 
-public class KeyedDequePairList<K, T>  implements IKeyedDequePairList<K,T> {
+/**
+ * This adt holds IPair's which has-a IDeque and provides methods for finding the
+ * IDeque with Id's
+ * 
+ * <ul>
+ * <li><strong>dequePairs</strong> type: List<IPair<K, IDeque<T>>>
+ * </ul>
+ * 
+ * @author Mustafa Fatih Can 280201007
+ * @author Deniz Kaya 280201033
+ * @author Hakan Uskan 280201076
+ * @author Burak Erinc 290201099
+ */
+public class KeyedDequePairList<K, T> implements IKeyedDequePairList<K, T> {
 
 	private List<IPair<K, IDeque<T>>> dequePairs;
 
+	/**
+	 * <strong>No Argument Constructor</strong>
+	 * <p>
+	 */
 	public KeyedDequePairList() {
 		dequePairs = new ArrayList<>();
 	}
@@ -18,7 +35,7 @@ public class KeyedDequePairList<K, T>  implements IKeyedDequePairList<K,T> {
 		if (appropriateDequePair == null) {
 			IDeque<T> addedDeque = new Deque<>();
 			addedDeque.add(element);
-			IPair<K, IDeque<T>> addedDequePair = new Pair<>(key,addedDeque);
+			IPair<K, IDeque<T>> addedDequePair = new Pair<>(key, addedDeque);
 			dequePairs.add(addedDequePair);
 			return;
 		}
@@ -59,7 +76,7 @@ public class KeyedDequePairList<K, T>  implements IKeyedDequePairList<K,T> {
 	}
 
 	@Override
-	public IPair<K, IDeque<T>> findAppropriateDequePair(K key) {// Returns null if no appropriate deque exists.
+	public IPair<K, IDeque<T>> findAppropriateDequePair(K key) {
 		IPair<K, IDeque<T>> returned = null;
 		for (IPair<K, IDeque<T>> dequePair : this.dequePairs) {
 			if (dequePair.getFirst().equals(key)) {

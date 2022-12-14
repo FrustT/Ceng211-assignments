@@ -5,6 +5,25 @@ import java.util.Locale;
 import furniturefactory.dataclasses.MaterialData;
 import furniturefactory.dataclasses.MaterialID;
 
+/**
+ * This class produces objects that is essential ingredient for furniture
+ * crafting
+ * 
+ * <ul>
+ * <li><strong>ID</strong> type: MaterialID
+ * <li><strong>length</strong> type: int
+ * <li><strong>width</strong> type: int
+ * <li><strong>height</strong> type: int
+ * <li><strong>cost</strong> type: int
+ * <li><strong>quality</strong> type: int
+ * <li><strong>initialized</strong> type: boolean
+ * </ul>
+ * 
+ * @author Mustafa Fatih Can 280201007
+ * @author Deniz Kaya 280201033
+ * @author Hakan Uskan 280201076
+ * @author Burak Erinc 290201099
+ */
 public class Material {
 
 	private MaterialID ID;
@@ -15,10 +34,26 @@ public class Material {
 	private int quality;
 	private boolean initialized = false;
 
+	/**
+	 * <strong>No Argument Constructor</strong>
+	 * <p>
+	 */
 	public Material() {
 		this(null, 0, 0, 0, 0, 0);
 	}
 
+	/**
+	 * <strong>Parameterized Constructor</strong>
+	 * <p>
+	 * Constructs Material Object with required data.
+	 * 
+	 * @param materialID
+	 * @param length
+	 * @param width
+	 * @param height
+	 * @param cost
+	 * @param quality
+	 */
 	public Material(MaterialID materialID, int length, int width, int height, int cost, int quality) {
 		this.ID = materialID;
 		this.length = length;
@@ -29,13 +64,28 @@ public class Material {
 		this.initialized = true;
 	}
 
+	/**
+	 * <strong>Parameterized Constructor</strong>
+	 * <p>
+	 * Constructs Material Object with required data.
+	 * 
+	 * @param data
+	 * @param quality
+	 */
 	public Material(MaterialData data, int quality) {
 		this(data.getID(), data.getLength(), data.getWidth(), data.getHeight(), data.getCost(), quality);
 	}
 
+	/**
+	 * <strong>Copy Constructor</strong>
+	 * <p>
+	 * Constructs a new Material Object with another Material Object
+	 * 
+	 * @param material
+	 */
 	public Material(Material material) {
 		this(material.getID(), material.getLength(), material.getWidth(), material.getHeight(), material.getCost(),
-			 material.getQuality());
+				material.getQuality());
 	}
 
 	public int getQuality() {
@@ -43,6 +93,12 @@ public class Material {
 		return quality;
 	}
 
+	/**
+	 * Sets quality with given parameter quality type: int if parameter is not
+	 * negative
+	 * 
+	 * @param quality
+	 */
 	public void setQuality(int quality) {
 		if (quality < 0)
 			System.exit(0);
@@ -93,9 +149,14 @@ public class Material {
 	public void setCost(int cost) {
 		this.cost = cost;
 	}
-	
-	public int calculateVolume(){
-		return length*height*width;
+
+	/**
+	 * Calculates volume according to its length,height,width.
+	 * 
+	 * @return volume as integer.
+	 */
+	public int calculateVolume() {
+		return length * height * width;
 	}
 
 	@Override
