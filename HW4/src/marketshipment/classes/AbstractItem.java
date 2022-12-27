@@ -9,7 +9,7 @@ public abstract class AbstractItem implements Item {
 	private ItemCode itemCode;
 	private String serialNumber;
 
-	public AbstractItem() {
+	protected AbstractItem() {
 		price = 0;
 		cost = 0;
 		volume = 0;
@@ -17,7 +17,7 @@ public abstract class AbstractItem implements Item {
 		serialNumber = "Default item. No serial number.";
 	}
 
-	public AbstractItem(AbstractItem _item) {
+	protected AbstractItem(AbstractItem _item) {
 		price = _item.getPrice();
 		cost = _item.getCost();
 		volume = _item.getVolume();
@@ -25,7 +25,7 @@ public abstract class AbstractItem implements Item {
 		serialNumber = _item.getSerialNumber();
 	}
 
-	public AbstractItem(ItemCode _itemCode, double _volume, String _serialNumber) {
+	protected AbstractItem(ItemCode _itemCode, double _volume, String _serialNumber) {
 		volume = _volume;
 		itemCode = _itemCode;
 		serialNumber = _serialNumber;

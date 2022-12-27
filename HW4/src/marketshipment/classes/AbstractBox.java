@@ -5,7 +5,7 @@ import marketshipment.interfaces.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractBox<T extends Item> implements Box<T> {
+public abstract class AbstractBox<T extends Item> implements Box<T> , Holder<T> {
 	private List<T> contents;
 	private BoxCode boxCode;
 	private String serialNumber;
@@ -14,17 +14,17 @@ public abstract class AbstractBox<T extends Item> implements Box<T> {
 	private double maxVolume;
 	private double revenue;
 
-	public AbstractBox() {
+	protected AbstractBox() {
 		boxCode = null;
 		serialNumber = "Default Box. No serial number.";
-		contents = new ArrayList<T>();
+		contents = new ArrayList<>();
 		totalVolume = 0;
 		isInContainer = false;
 		maxVolume = 0;
 		revenue = 0;
 	}
 
-	public AbstractBox(AbstractBox<T> _box) {
+	protected AbstractBox(AbstractBox<T> _box) {
 		boxCode = _box.getBoxCode();
 		serialNumber = _box.getSerialNumber();
 		contents = _box.getContents();
@@ -34,8 +34,8 @@ public abstract class AbstractBox<T extends Item> implements Box<T> {
 		revenue = _box.getRevenue();
 	}
 
-	public AbstractBox(BoxCode _boxCode, double _maxVolume, String _serialNumber) {
-		contents = new ArrayList<T>();
+	protected AbstractBox(BoxCode _boxCode, double _maxVolume, String _serialNumber) {
+		contents = new ArrayList<>();
 		boxCode = _boxCode;
 		serialNumber = _serialNumber;
 		totalVolume = 0;
@@ -61,6 +61,17 @@ public abstract class AbstractBox<T extends Item> implements Box<T> {
 		return result;
 	}
 
+	public int getIndexOf(T _element) {
+		return getIndexOfWithSerial(_element.getSerialNumber());
+		
+	}
+	public int getIndexOfWithSerial(String s) {
+		for(int i = 0;i<contents.size();i++) {
+			if(contents.get(i).getSerialNumber().equals(s))return i;
+		}
+		return -1;
+	}
+	
 	public boolean getIsInContainer() {
 		return isInContainer;
 	}
@@ -94,9 +105,9 @@ public abstract class AbstractBox<T extends Item> implements Box<T> {
 	}
 	
 	@Override
-	public void add(T _element) {
+	public void add(T _element) {//TODO try catch
 		if (!isAddible(_element)) {
-
+			
 		} // TODO THROW EXCEPTION
 		contents.add(_element);
 		revenue += _element.getRevenue();

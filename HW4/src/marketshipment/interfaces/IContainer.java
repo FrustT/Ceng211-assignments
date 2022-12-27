@@ -2,15 +2,13 @@ package marketshipment.interfaces;
 
 import marketshipment.classes.ContainerCode;
 
-public interface IContainer<T> extends Serial {
-	
-	public String getSerialNumber();
+public interface IContainer<T extends Serial> extends Serial, Holder<T> {
 	
 	public ContainerCode getContainerCode();
 	
 	public void ship();
 	
-	public void add(T _element);
-	
 	public double getRevenue();
+	
+	public boolean isShipped();
 }

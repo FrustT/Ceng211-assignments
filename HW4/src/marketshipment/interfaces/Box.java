@@ -1,8 +1,6 @@
 package marketshipment.interfaces;
 
-public interface Box<T> extends Serial {
-	
-	public void add(T _element);
+public interface Box<T extends Serial> extends Serial, Holder<T> {
 	
 	public double getTotalVolume();
 	
@@ -13,4 +11,6 @@ public interface Box<T> extends Serial {
 	public void putInContainer();
 	
 	public String getSerialNumber();
+	
+	public boolean getIsInContainer();
 }

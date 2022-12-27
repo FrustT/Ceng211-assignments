@@ -17,7 +17,7 @@ public class OrderHandler {
 		return orders;
 	}
 
-	public void delegate(String order) {
+	public void delegate(String order) throws Exception {
 		ArrayList<String> operations = new ArrayList<>();
 		Collections.addAll(operations, order.split(","));
 		switch (operations.remove(0)) {
@@ -38,47 +38,27 @@ public class OrderHandler {
 		}
 	}
 
-	public void produce(ArrayList<String> operations) {
-		String code = operations.remove(0);
-		switch(code) {
-			case "B1": case "B2":
-				company.produceBox(BoxCode.valueOf(code),Integer.valueOf(operations.remove(0)),Double.valueOf(operations.remove(0)),operations.remove(0));
-				break;
-			case "M1": case "W1": case "O1":
-				company.produceCountableItem(ItemCode.valueOf(code), Double.valueOf(operations.remove(0)), operations.remove(0));
-				break;
-			case "S1": case "F1": case "P1": case "R1":
-				company.produceUncountableItem(ItemCode.valueOf(code), Integer.valueOf(operations.remove(0)), Double.valueOf(operations.remove(0)), operations.remove(0));
-			case "C1":
-				company.produceContainer(ContainerCode.valueOf(code), Double.valueOf(operations.remove(0)), operations.remove(0));
-		}
+	public void produce(List<String> operations) throws Exception {
+		company.produce(operations);
 	}
 
-	public void load(ArrayList<String> operations) {
-		
+	public void load(List<String> operations) throws Exception {
+		company.load(operations.remove(0), operations.remove(0));
 	}
 
-	public void ship(ArrayList<String> operations) {
-
+	public void ship(List<String> operations) throws Exception {
+		company.ship(operations.remove(0));
 	}
 
-	public void show(ArrayList<String> operations) {
-		
-		switch(operations.remove(0)){
-			case "1":
-			break;
-			case "2":
-			break;
-			default:
-			break;
-		}
+	public void show(List<String> operations) {
+		company.show(operations.remove(0));
 	}
 
 	public boolean hasMoreOrders() {
 		return orders.size() != 0;
 	}
 
-	public void executeAnOrder() {
+	public void executeAnOrder() throws Exception {
 		this.delegate(this.orders.remove(0));
 	}
 
