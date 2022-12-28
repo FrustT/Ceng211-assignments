@@ -4,24 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import marketshipment.exceptions.ExistingSerialNumberException;
-import marketshipment.exceptions.InvalidHolderException;
-import marketshipment.exceptions.InvalidLoadOfSerialException;
+import marketshipment.exceptions.HolderIsFullException;
+import marketshipment.exceptions.HolderIsNotAccessibleException;
+import marketshipment.exceptions.InvalidBoxException;
+import marketshipment.exceptions.LoadIsAlreadyLoadedException;
 import marketshipment.exceptions.RuleException;
+import marketshipment.exceptions.SerialNumberNotFoundException;
 import marketshipment.interfaces.*;
 
 public class Company {
 	private List<Serial> allSerials;
-	private double revenue;
+	private double actualRevenue;
 	private double unearnedRevenue;
 
 	public Company() {
 		allSerials = new ArrayList<>();
-		revenue = 0;
-		unearnedRevenue = 0;
+		actualRevenue = 0.0;
+		unearnedRevenue = 0.0;
 	}
 
 	public double getRevenue() {
-		return revenue;
+		return actualRevenue;
 	}
 
 	public double getUnearnedRevenue() {
@@ -32,31 +35,26 @@ public class Company {
 		String ElementCode = data.remove(0);
 		String serialNumber = data.get(data.size() - 1);
 
-		show("2");
-		System.out.print("       ");
 		try {
 			switch (ElementCode) {
 			case "M1", "W1", "O1":
 				CountableItem countableItem = new CountableItem(ItemCode.valueOf(ElementCode),
 						Double.valueOf(data.remove(0)), serialNumber);
-				unearnedRevenue += countableItem.getRevenue();
-				revenue -= countableItem.getCost();
 				if (isProduced(countableItem.getSerialNumber())) {
 					throw new ExistingSerialNumberException();
 				}
+				actualRevenue -= countableItem.getCost();
 				allSerials.add(countableItem);
 				System.out.print(countableItem);
-
 				break;
 
 			case "S1", "F1", "P1", "R1":
 				UncountableItem uncountableItem = new UncountableItem(ItemCode.valueOf(ElementCode),
 						Integer.valueOf(data.remove(0)), Double.valueOf(data.remove(0)), serialNumber);
-				unearnedRevenue += uncountableItem.getRevenue();
-				revenue -= uncountableItem.getCost();
 				if (isProduced(uncountableItem.getSerialNumber())) {
 					throw new ExistingSerialNumberException();
 				}
+				actualRevenue -= uncountableItem.getCost();
 				allSerials.add(uncountableItem);
 				System.out.print(uncountableItem);
 				break;
@@ -64,10 +62,10 @@ public class Company {
 			case "B1":
 				NumberBox<CountableItem> numberBox = new NumberBox<>(BoxCode.valueOf(ElementCode),
 						Integer.valueOf(data.remove(0)), Double.valueOf(data.remove(0)), serialNumber);
-				revenue -= numberBox.getCost();
 				if (isProduced(numberBox.getSerialNumber())) {
 					throw new ExistingSerialNumberException();
 				}
+				actualRevenue -= numberBox.getTotalCost();
 				allSerials.add(numberBox);
 				System.out.print(numberBox);
 				break;
@@ -75,10 +73,11 @@ public class Company {
 			case "B2":
 				MassBox<UncountableItem> massBox = new MassBox<>(BoxCode.valueOf(ElementCode),
 						Integer.valueOf(data.remove(0)), Double.valueOf(data.remove(0)), serialNumber);
-				revenue -= massBox.getCost();
+
 				if (isProduced(massBox.getSerialNumber())) {
 					throw new ExistingSerialNumberException();
 				}
+				actualRevenue -= massBox.getTotalCost();
 				allSerials.add(massBox);
 				System.out.print(massBox);
 				break;
@@ -86,31 +85,28 @@ public class Company {
 			case "C1":
 				Container<Box<Item>> container = new Container<>(ContainerCode.valueOf(ElementCode),
 						Double.valueOf(data.remove(0)), serialNumber);
-				revenue -= container.getCost();
+
 				if (isProduced(container.getSerialNumber())) {
 					throw new ExistingSerialNumberException();
 				}
+				actualRevenue -= container.getTotalCost();
 				allSerials.add(container);
 				System.out.print(container);
 				break;
 			default:
 				break;
 			}
-			System.out.println(" has been produced! ");
+			System.out.print(" has been produced! ");
 		} catch (ExistingSerialNumberException e) {
-			System.out.println(
-					"Element with the serial number " + serialNumber + " cannot be produced " + e.getMessage());
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out
+					.print("Element with the serial number " + serialNumber + " cannot be produced " + e.getMessage());
 		}
-
+		System.out.print(" ");
+		show("2");
 	}
 
-	public void load(String _loadSerialNumber, String _holderSerialNumber) throws Exception {
-		
-		show("2");
-		System.out.print("       ");
-		
+	public void load(String _loadSerialNumber, String _holderSerialNumber) throws RuleException {
+
 		int indexOfHolder = getIndexOfWithSerial(_holderSerialNumber);
 
 		@SuppressWarnings("unchecked")
@@ -119,54 +115,78 @@ public class Company {
 		int indexOfLoad = getIndexOfWithSerial(_loadSerialNumber);
 
 		Serial load = allSerials.get(indexOfLoad);
+
 		try {
 			if (indexOfHolder == -1)
-				throw new Exception("Holder with SerialNumber " + _holderSerialNumber + " is not Found");
+				throw new SerialNumberNotFoundException(
+						"Holder with SerialNumber " + _holderSerialNumber + " is not Found");
 
 			if (indexOfLoad == -1)
-				throw new Exception("Load with SerialNumber " + _loadSerialNumber + " is not Found!");// serial not Found
+				throw new SerialNumberNotFoundException(
+						"Load with SerialNumber " + _loadSerialNumber + " is not Found!");// serial not Found
 
 			holder.add(load);
-			System.out.println(load.getClass().getSimpleName() + " " + load.getSerialNumber() + " has been placed to"
+			System.out.print(load.getClass().getSimpleName() + " " + load.getSerialNumber() + " has been placed to "
 					+ holder.getClass().getSimpleName() + " " + _holderSerialNumber);
 
-		} catch (InvalidLoadOfSerialException e) {
-			System.out.println( 
-				load.getClass().getSimpleName() + " with the serial number " + load.getSerialNumber() + " is already loaded" + e.getMessage());
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+		} catch (SerialNumberNotFoundException e) {
+			System.out.print(e.getMessage());
+		} catch (LoadIsAlreadyLoadedException e) {
+			System.out.print(load.getClass().getSimpleName() + " with the serial number " + load.getSerialNumber()
+					+ " is already loaded " + e.getMessage());
+		} catch (HolderIsFullException e) {
+			unearnedRevenue += load.getRevenue();
+			// System.out.println(load.getSerialNumber());
+			System.out.print("The holder " + holder.getSerialNumber() + " is full. " + e.getMessage());
+		} catch (HolderIsNotAccessibleException e) {
+			unearnedRevenue += load.getRevenue();
+			// System.out.println(load.getSerialNumber());
+			System.out.print("You cannot load any load to " + holder.getClass().getSimpleName() + " with serial number "
+					+ holder.getSerialNumber() + " " + e.getMessage());
+		} catch (InvalidBoxException e) {
+			unearnedRevenue += load.getRevenue();
+			// System.out.println(load.getSerialNumber());
+			System.out.print("You cannot load " + load.getClass().getSimpleName() + " to "
+					+ holder.getClass().getSimpleName() + " box " + e.getMessage());
 		}
+		System.out.print(" ");
+		show("2");
 	}
 
 	public void ship(String _containerSerialNumber) throws Exception {
-		show("2");
-		System.out.print("       ");
 
 		IContainer<?> container = (IContainer<?>) allSerials.get(getIndexOfWithSerial(_containerSerialNumber));
 		try {
 			if (container.isShipped()) {
-				throw new Exception(
-						"Exception: Container with Serial Number " + _containerSerialNumber + " already Shipped!");
+				throw new HolderIsNotAccessibleException();
 			}
 			container.ship();
-			unearnedRevenue -= container.getTotalRevenue();
-			revenue += container.getPriceOfItems();
+			actualRevenue += container.getTotalPrice();
+			/*
+			 * System.out.println(container.getTotalPrice() + " container price");
+			 * System.out.println(container.getTotalCost() + " container cost");
+			 * System.out.println(container.getTotalRevenue() + " container revenue");
+			 * System.out.println(unearnedRevenue);
+			 */
 
-			System.out.println("Container " + _containerSerialNumber + " has been shipped");
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.print("Container " + _containerSerialNumber + " has been shipped");
+		} catch (HolderIsNotAccessibleException e) {
+			System.out.print("Exception: Container with Serial Number " + _containerSerialNumber + " already Shipped!"
+					+ e.getMessage());
 		}
+		System.out.print("       ");
+		show("2");
 
 	}
 
 	public void show(String _code) {
 		switch (_code) {
 		case "1":
-			System.out.print("Unearned revenue: " + String.format("%.2f", unearnedRevenue) + "TL");
+			System.out.print("Unearned revenue: " + String.format("%.2f", unearnedRevenue) + "TL" + "\n");
 			break;
 
 		case "2":
-			System.out.print("Total revenue: " + String.format("%.2f", revenue + unearnedRevenue) + "TL");
+			System.out.print("Total revenue: " + String.format("%.2f", actualRevenue) + "TL" + "\n");
 			break;
 		default:
 			System.out.print("Invalid Input");

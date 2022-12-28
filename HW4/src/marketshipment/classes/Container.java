@@ -3,7 +3,10 @@ package marketshipment.classes;
 import java.util.ArrayList;
 import java.util.List;
 
-import marketshipment.exceptions.InvalidLoadOfSerialException;
+import marketshipment.exceptions.CannotBeAddedToHolderException;
+import marketshipment.exceptions.HolderIsFullException;
+import marketshipment.exceptions.HolderIsNotAccessibleException;
+import marketshipment.exceptions.LoadIsAlreadyLoadedException;
 import marketshipment.interfaces.Box;
 import marketshipment.interfaces.IContainer;
 import marketshipment.interfaces.Item;
@@ -15,7 +18,8 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 	private boolean isShipped;
 	private double maxVolume;
 	private double totalVolume;
-	private double revenue;
+	private double totalPrice;
+	private double totalCost;
 
 	public Container() {
 		containerCode = null;
@@ -24,7 +28,8 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 		isShipped = false;
 		maxVolume = 0;
 		totalVolume = 0;
-		revenue = 0.0;
+		totalPrice = 0.0;
+		totalCost = 0.0;
 	}
 
 	public Container(Container<T> _container) {
@@ -34,7 +39,8 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 		isShipped = _container.isShipped();
 		maxVolume = _container.getMaxVolume();
 		totalVolume = _container.getTotalVolume();
-		revenue = _container.getTotalRevenue();
+		totalPrice = _container.getTotalPrice();
+		totalCost = _container.getTotalCost();
 	}
 
 	public Container(ContainerCode _containerCode, double _maxVolume, String _serialNumber) {
@@ -43,10 +49,10 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 		serialNumber = _serialNumber;
 		isShipped = false;
 		maxVolume = _maxVolume;
-		totalVolume = 0;
-		revenue = 0.0;
+		totalVolume = 0.0;
+		totalPrice = 0.0;
+		totalCost = _containerCode.getCost() * _maxVolume;
 	}
-
 	@Override
 	public ContainerCode getContainerCode() {
 		return containerCode;
@@ -59,7 +65,16 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 		}
 		return result;
 	}
-
+	
+	@Override
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+	
+	@Override
+	public double getTotalCost() {
+		return totalCost;
+	}
 	@Override
 	public String getSerialNumber() {
 		return serialNumber;
@@ -80,7 +95,7 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 
 	@Override
 	public double getTotalRevenue() {
-		return revenue;
+		return totalPrice - totalCost;
 	}
 
 	@Override
@@ -89,11 +104,12 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 	}
 
 	@Override
-	public void add(T box) throws Exception{//TODO
+	public void add(T box) throws CannotBeAddedToHolderException{
 		if (isAddible(box)) {
 		contents.add(box);
 		box.putInContainer();
-		revenue += box.getTotalRevenue();
+		totalPrice += box.getTotalPrice();
+		totalCost += box.getTotalCost();
 		totalVolume += box.getMaxVolume();
 		}
 	}
@@ -117,37 +133,31 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 		}
 		return -1;
 	}
-
-	public double getCost() {
-		return containerCode.getCost();
-	}
-
-	public int getPriceOfItems() {
-		int result = 0;
-		for(Box<Item> box : contents) {
-			result += box.getPriceOfItems();
-		}
-		return result;
-	}
 	
 	@Override
 	public String toString() {
 		return this.getMaxVolume()+" liter(s) of Container with Serial Number of "+ this.getSerialNumber();
 	}
 	
-	private boolean isAddible(T box) throws Exception {//TODO
+	private boolean isAddible(T box) throws CannotBeAddedToHolderException {
 		if(box.isInContainer()) {
-			throw new InvalidLoadOfSerialException();
+			throw new LoadIsAlreadyLoadedException();
 		}
 		
-		if(haveRoomForBox(box)) {
-			throw new Exception();//TODO
+		if(!haveRoomForBox(box)) {
+			throw new HolderIsFullException();
 		}
 		
 		if(isShipped) {
-			throw new Exception();//TODO
+			throw new HolderIsNotAccessibleException();
 		}
 		
 		return true;
+	}
+
+	@Override
+	public double getRevenue() {
+		// TODO Auto-generated method stub
+		return this.getTotalRevenue();
 	}
 }

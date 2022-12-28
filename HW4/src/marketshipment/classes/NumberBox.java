@@ -1,8 +1,12 @@
 package marketshipment.classes;
 
+import marketshipment.exceptions.CannotBeAddedToHolderException;
+import marketshipment.exceptions.HolderIsFullException;
+import marketshipment.exceptions.InvalidBoxException;
+import marketshipment.exceptions.RuleException;
 import marketshipment.interfaces.*;
 
-public class NumberBox<T extends Countable & Item> extends AbstractBox<T>{
+public class NumberBox<T extends Item> extends AbstractBox<T>{
 	private int maxNumberOfItems;
 	private int numberOfItems;
 	
@@ -33,8 +37,20 @@ public class NumberBox<T extends Countable & Item> extends AbstractBox<T>{
 		return maxNumberOfItems;
 	}
 	
-	public boolean haveRoomForItem(T item){
-		return hasSpareVolume(item) && (numberOfItems < maxNumberOfItems);
+	public void add(T _element) throws CannotBeAddedToHolderException {
+		if(!(_element instanceof Countable)) {
+			throw new InvalidBoxException();
+		}
+		if (isAddible(_element)) {
+			super.add(_element);
+		}
+	}
+	
+	public boolean haveRoomForItem(T item) throws CannotBeAddedToHolderException{
+		if(hasSpareVolume(item) && (numberOfItems < maxNumberOfItems)) {
+			return true;
+		}
+		throw new HolderIsFullException();
 	}
 
 	@Override

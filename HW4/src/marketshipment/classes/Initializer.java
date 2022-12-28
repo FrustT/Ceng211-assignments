@@ -10,12 +10,10 @@ public class Initializer {
 		company = new Company();
 		orderHandler = new OrderHandler(FileIO.getOrdersFromFile("Files/ExampleCommands.csv"));
 	}
-	//Debug Reasons
 	public OrderHandler getHandler(){
 		return orderHandler;
 	}
 	public Company getCompany(){
 		return company;
 	}
-	//Debug Reasons
 }

@@ -2,10 +2,12 @@ package marketshipment.interfaces;
 
 import java.util.List;
 
-public interface Holder<T extends Serial> {
+import marketshipment.exceptions.CannotBeAddedToHolderException;
+
+public interface Holder<T extends Serial> extends Serial{
 	
 	
-	public void add(T _element) throws Exception;
+	public void add(T _element) throws CannotBeAddedToHolderException;
 	
 	public List<T> getContents();
 
@@ -13,6 +15,8 @@ public interface Holder<T extends Serial> {
 	
 	public int getIndexOfWithSerial(String s);
 	
-	public int getPriceOfItems();
+	public double getTotalPrice();
+	
+	public double getTotalCost();
 	
 }

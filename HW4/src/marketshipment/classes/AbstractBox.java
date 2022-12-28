@@ -1,6 +1,9 @@
 package marketshipment.classes;
 
-import marketshipment.exceptions.InvalidLoadOfSerialException;
+import marketshipment.exceptions.CannotBeAddedToHolderException;
+import marketshipment.exceptions.HolderIsFullException;
+import marketshipment.exceptions.HolderIsNotAccessibleException;
+import marketshipment.exceptions.LoadIsAlreadyLoadedException;
 import marketshipment.interfaces.*;
 
 import java.util.ArrayList;
@@ -14,7 +17,9 @@ public abstract class AbstractBox<T extends Item> implements Box<T>, Holder<T> {
 	private double totalVolume;
 	private boolean isInContainer;
 	private double maxVolume;
-	private double revenue;
+	private double totalPrice;
+	private double totalCost;
+
 
 	protected AbstractBox() {
 		boxCode = null;
@@ -23,7 +28,8 @@ public abstract class AbstractBox<T extends Item> implements Box<T>, Holder<T> {
 		totalVolume = 0;
 		isInContainer = false;
 		maxVolume = 0;
-		revenue = 0;
+		totalPrice = 0;
+		totalCost = 0;
 	}
 
 	protected AbstractBox(AbstractBox<T> _box) {
@@ -33,7 +39,8 @@ public abstract class AbstractBox<T extends Item> implements Box<T>, Holder<T> {
 		totalVolume = _box.getTotalVolume();
 		isInContainer = _box.isInContainer();
 		maxVolume = _box.getMaxVolume();
-		revenue = _box.getTotalRevenue();
+		totalPrice = _box.getTotalPrice();
+		totalCost = _box.getTotalCost();
 	}
 
 	protected AbstractBox(BoxCode _boxCode, double _maxVolume, String _serialNumber) {
@@ -43,13 +50,22 @@ public abstract class AbstractBox<T extends Item> implements Box<T>, Holder<T> {
 		totalVolume = 0;
 		isInContainer = false;
 		maxVolume = _maxVolume;
-		revenue = 0.0;
+		totalCost = boxCode.getCost() * maxVolume;
+		totalPrice = 0;
 	}
 
-	public abstract boolean haveRoomForItem(T item);
+	public abstract boolean haveRoomForItem(T item) throws CannotBeAddedToHolderException;
 
 	public abstract void updateRespectiveTotalAmount(T item);
-
+	
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+	
+	public double getTotalCost() {
+		return totalCost;
+	}
+	
 	public String getSerialNumber() {
 		return serialNumber;
 	}
@@ -75,24 +91,12 @@ public abstract class AbstractBox<T extends Item> implements Box<T>, Holder<T> {
 		return -1;
 	}
 
-	public int getPriceOfItems() {
-		int result = 0;
-		for (Item item : contents) {
-			result += item.getPrice();
-		}
-		return result;
-	}
-
 	public boolean isInContainer() {
 		return isInContainer;
 	}
 
 	public BoxCode getBoxCode() {
 		return boxCode;
-	}
-
-	public int getCost() {
-		return boxCode.getCost();
 	}
 
 	public boolean hasSpareVolume(T item) {
@@ -104,9 +108,8 @@ public abstract class AbstractBox<T extends Item> implements Box<T>, Holder<T> {
 		return maxVolume;
 	}
 
-	@Override
-	public double getTotalRevenue() {
-		return revenue;
+	public double getRevenue() {
+		return totalPrice - totalCost;
 	}
 
 	@Override
@@ -115,14 +118,13 @@ public abstract class AbstractBox<T extends Item> implements Box<T>, Holder<T> {
 	}
 
 	@Override
-	public void add(T _element) throws Exception {// TODO try catch
-		if (isAddible(_element)) {
+	public void add(T _element) throws CannotBeAddedToHolderException {
 		contents.add(_element);
-		revenue += _element.getRevenue();
+		totalPrice += _element.getPrice();
+		totalCost += _element.getCost();
 		totalVolume += _element.getVolume();
 		updateRespectiveTotalAmount(_element);
 		_element.load();
-		}
 	}
 
 	@Override
@@ -130,13 +132,19 @@ public abstract class AbstractBox<T extends Item> implements Box<T>, Holder<T> {
 		isInContainer = true;
 	}
 
-	private boolean isAddible(T item) throws Exception {//TODO change to ruleexception
+	protected boolean isAddible(T item) throws CannotBeAddedToHolderException {
 		if (item.isLoaded()) {
-			throw new InvalidLoadOfSerialException();
+			throw new LoadIsAlreadyLoadedException();
 		}
-		if(this.isInContainer)throw new Exception();//TODO
+		
+		if(this.isInContainer) {
+			throw new HolderIsNotAccessibleException();
+		}
 			
-		if(!this.haveRoomForItem(item))throw new Exception();//TODO
+		if(!this.haveRoomForItem(item)){
+			throw new HolderIsFullException();
+		}
+		
 		return true;
 	}
 }

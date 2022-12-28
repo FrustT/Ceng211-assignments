@@ -1,14 +1,9 @@
 package marketshipment.exceptions;
 
-public class InvalidBoxException extends Exception{
+public class InvalidBoxException extends CannotBeAddedToHolderException{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	public InvalidBoxException() {
-		super("Execption Code: 2 - You Can't Load This Item To This Box!");
+		super("Execption Code: 4 - Type mismatch! You Cannot Load This Item To This Box!");
 	}
 	
 	public InvalidBoxException(String message) {

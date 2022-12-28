@@ -1,9 +1,12 @@
 package marketshipment.classes;
 
 
+import marketshipment.exceptions.CannotBeAddedToHolderException;
+import marketshipment.exceptions.InvalidBoxException;
+import marketshipment.exceptions.RuleException;
 import marketshipment.interfaces.*;
 
-public class MassBox<T extends Uncountable & Item> extends AbstractBox<T> {
+public class MassBox<T extends Item> extends AbstractBox<T> {
 	private int maxMass;
 	private int mass;
 	
@@ -29,32 +32,29 @@ public class MassBox<T extends Uncountable & Item> extends AbstractBox<T> {
 		return maxMass;
 	}
 		
-	public int getMass() {
+	public int getMass(){
 		return mass;
 	}
 	
-	public void add(T _element) throws Exception {
-		if(_element.getClass() != class.Uncountable) {
+	public void add(T _element) throws CannotBeAddedToHolderException {
+		if(!(_element instanceof Uncountable)) {
 			throw new InvalidBoxException();
 		}
-		
 		if (isAddible(_element)) {
-		contents.add(_element);
-		revenue += _element.getRevenue();
-		totalVolume += _element.getVolume();
-		updateRespectiveTotalAmount(_element);
-		_element.load();
+			super.add(_element);
 		}
 	}
 
 	@Override
 	public boolean haveRoomForItem(T item) {
-		return hasSpareVolume(item) && ((mass + item.getMass()) <= maxMass);
+		Uncountable uncountableItem = (Uncountable) item;
+		return hasSpareVolume(item) && ((mass + uncountableItem.getMass()) <= maxMass);
 	}
 
 	@Override
 	public void updateRespectiveTotalAmount(T item) {
-		this.mass += item.getMass();
+		Uncountable uncountableItem = (Uncountable) item;
+		this.mass += uncountableItem.getMass();
 	}	
 	@Override
 	public String toString() {
