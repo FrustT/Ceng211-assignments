@@ -1,5 +1,6 @@
 package marketshipment.classes;
 
+import marketshipment.exceptions.InvalidLoadOfSerialException;
 import marketshipment.interfaces.*;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public abstract class AbstractBox<T extends Item> implements Box<T>, Holder<T> {
 		serialNumber = _box.getSerialNumber();
 		contents = _box.getContents();
 		totalVolume = _box.getTotalVolume();
-		isInContainer = _box.getIsInContainer();
+		isInContainer = _box.isInContainer();
 		maxVolume = _box.getMaxVolume();
 		revenue = _box.getTotalRevenue();
 	}
@@ -42,7 +43,7 @@ public abstract class AbstractBox<T extends Item> implements Box<T>, Holder<T> {
 		totalVolume = 0;
 		isInContainer = false;
 		maxVolume = _maxVolume;
-		revenue = 0.0 - boxCode.getCost();
+		revenue = 0.0;
 	}
 
 	public abstract boolean haveRoomForItem(T item);
@@ -74,15 +75,15 @@ public abstract class AbstractBox<T extends Item> implements Box<T>, Holder<T> {
 		return -1;
 	}
 
-	public int getRevenueOfItems() {
+	public int getPriceOfItems() {
 		int result = 0;
-		for (Item i : contents) {
-			result += i.getRevenue();
+		for (Item item : contents) {
+			result += item.getPrice();
 		}
 		return result;
 	}
 
-	public boolean getIsInContainer() {
+	public boolean isInContainer() {
 		return isInContainer;
 	}
 
@@ -95,11 +96,7 @@ public abstract class AbstractBox<T extends Item> implements Box<T>, Holder<T> {
 	}
 
 	public boolean hasSpareVolume(T item) {
-		return (item.getVolume() + this.totalVolume) <= this.maxVolume;
-	}
-
-	public boolean isAddible(T item) {
-		return this.haveRoomForItem(item) && !this.isInContainer;
+		return (item.getVolume() + totalVolume) <= maxVolume;
 	}
 
 	@Override
@@ -118,18 +115,28 @@ public abstract class AbstractBox<T extends Item> implements Box<T>, Holder<T> {
 	}
 
 	@Override
-	public void add(T _element) {// TODO try catch
-		if (!isAddible(_element)) {
-
-		} // TODO THROW EXCEPTION
+	public void add(T _element) throws Exception {// TODO try catch
+		if (isAddible(_element)) {
 		contents.add(_element);
 		revenue += _element.getRevenue();
 		totalVolume += _element.getVolume();
 		updateRespectiveTotalAmount(_element);
+		_element.load();
+		}
 	}
 
 	@Override
 	public void putInContainer() {
 		isInContainer = true;
+	}
+
+	private boolean isAddible(T item) throws Exception {//TODO change to ruleexception
+		if (item.isLoaded()) {
+			throw new InvalidLoadOfSerialException();
+		}
+		if(this.isInContainer)throw new Exception();//TODO
+			
+		if(!this.haveRoomForItem(item))throw new Exception();//TODO
+		return true;
 	}
 }

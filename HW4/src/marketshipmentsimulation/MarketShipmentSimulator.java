@@ -8,8 +8,12 @@ public class MarketShipmentSimulator {
 		public MarketShipmentSimulator(){
 			init = new Initializer();	
 		}
-		public Initializer getInitializer(){//DEBUG REASONS
-			return init;
+		public void simulate() throws Exception {
+			OrderHandler handler = init.getHandler();
+
+			while (handler.hasMoreOrders()) {
+				handler.executeAnOrder();
+			}
 		}
 
 }

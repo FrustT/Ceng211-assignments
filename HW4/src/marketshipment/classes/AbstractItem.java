@@ -8,6 +8,7 @@ public abstract class AbstractItem implements Item {
 	private double volume;
 	private ItemCode itemCode;
 	private String serialNumber;
+	private boolean loaded;
 
 	protected AbstractItem() {
 		price = 0;
@@ -15,6 +16,7 @@ public abstract class AbstractItem implements Item {
 		volume = 0;
 		itemCode = null;
 		serialNumber = "Default item. No serial number.";
+		loaded = false;
 	}
 
 	protected AbstractItem(AbstractItem _item) {
@@ -23,6 +25,7 @@ public abstract class AbstractItem implements Item {
 		volume = _item.getVolume();
 		itemCode = _item.getItemCode();
 		serialNumber = _item.getSerialNumber();
+		loaded = _item.isLoaded();
 	}
 
 	protected AbstractItem(ItemCode _itemCode, double _volume, String _serialNumber) {
@@ -31,12 +34,12 @@ public abstract class AbstractItem implements Item {
 		serialNumber = _serialNumber;
 		price = _itemCode.getPrice() * _volume;
 		cost = getCost();
+		loaded = false;
 	}
 
 	public double getCost() {
 		return volume * itemCode.getCost();
 	}
-
 
 	@Override
 	public double getPrice() {
@@ -61,5 +64,13 @@ public abstract class AbstractItem implements Item {
 	@Override
 	public ItemCode getItemCode() {
 		return itemCode;
+	}
+
+	public boolean isLoaded() {
+		return loaded;
+	}
+
+	public void load() {
+		loaded = true;
 	}
 }

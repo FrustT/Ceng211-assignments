@@ -12,5 +12,5 @@ public interface Box<T extends Serial> extends Serial, Holder<T> {
 
 	public String getSerialNumber();
 
-	public boolean getIsInContainer();
+	public boolean isInContainer();
 }

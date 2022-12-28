@@ -5,7 +5,7 @@ import java.util.List;
 public interface Holder<T extends Serial> {
 	
 	
-	public void add(T _element);
+	public void add(T _element) throws Exception;
 	
 	public List<T> getContents();
 
@@ -13,6 +13,6 @@ public interface Holder<T extends Serial> {
 	
 	public int getIndexOfWithSerial(String s);
 	
-	public int getRevenueOfItems();
+	public int getPriceOfItems();
 	
 }

@@ -15,4 +15,8 @@ public interface Item extends Serial {
 	public String getSerialNumber();
 	
 	public ItemCode getItemCode();
+	
+	public boolean isLoaded();
+	
+	public void load();
 }

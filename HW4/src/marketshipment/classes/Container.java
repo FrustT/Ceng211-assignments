@@ -3,6 +3,7 @@ package marketshipment.classes;
 import java.util.ArrayList;
 import java.util.List;
 
+import marketshipment.exceptions.InvalidLoadOfSerialException;
 import marketshipment.interfaces.Box;
 import marketshipment.interfaces.IContainer;
 import marketshipment.interfaces.Item;
@@ -43,7 +44,7 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 		isShipped = false;
 		maxVolume = _maxVolume;
 		totalVolume = 0;
-		revenue = 0.0 - containerCode.getCost();
+		revenue = 0.0;
 	}
 
 	@Override
@@ -88,28 +89,19 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 	}
 
 	@Override
-	public void add(T box) {
-		if (!isAddible(box)) {
-
-		} // TODO exception olayları
-
-		if (box.getIsInContainer()) {
-
-		} // TODO exception olayları
-
+	public void add(T box) throws Exception{//TODO
+		if (isAddible(box)) {
 		contents.add(box);
 		box.putInContainer();
 		revenue += box.getTotalRevenue();
 		totalVolume += box.getMaxVolume();
+		}
 	}
 
 	public boolean haveRoomForBox(T box) {
-		return this.maxVolume - this.totalVolume > box.getMaxVolume();
+		return (maxVolume - totalVolume) > box.getTotalVolume();
 	}
 
-	public boolean isAddible(T box) {
-		return this.haveRoomForBox(box) && !this.isShipped;
-	}
 
 	@Override
 	public int getIndexOf(T _element) {
@@ -130,12 +122,32 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 		return containerCode.getCost();
 	}
 
-	@Override
-	public int getRevenueOfItems() {
+	public int getPriceOfItems() {
 		int result = 0;
 		for(Box<Item> box : contents) {
-			result += box.getRevenueOfItems();
+			result += box.getPriceOfItems();
 		}
 		return result;
+	}
+	
+	@Override
+	public String toString() {
+		return this.getMaxVolume()+" liter(s) of Container with Serial Number of "+ this.getSerialNumber();
+	}
+	
+	private boolean isAddible(T box) throws Exception {//TODO
+		if(box.isInContainer()) {
+			throw new InvalidLoadOfSerialException();
+		}
+		
+		if(haveRoomForBox(box)) {
+			throw new Exception();//TODO
+		}
+		
+		if(isShipped) {
+			throw new Exception();//TODO
+		}
+		
+		return true;
 	}
 }

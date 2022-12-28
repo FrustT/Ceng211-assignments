@@ -41,4 +41,9 @@ public class NumberBox<T extends Countable & Item> extends AbstractBox<T>{
 	public void updateRespectiveTotalAmount(T item) {
 		numberOfItems++;
 	}
+	
+	@Override
+	public String toString() {
+		return this.getMaxVolume()+" liter(s) of Number Box with capacity of "+ this.getMaxNumberOfItems()+" with Serial Number of "+ this.getSerialNumber();
+	}
 }

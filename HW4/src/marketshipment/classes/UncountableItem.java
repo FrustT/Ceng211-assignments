@@ -30,4 +30,8 @@ public class UncountableItem extends AbstractItem implements Uncountable {
 	public int getMass() {
 		return mass;
 	}
+	@Override
+	public String toString() {
+		return this.getMass()+" kilogram(s) of "+this.getItemCode().getName()+" with Serial Number of "+ this.getSerialNumber();
+	}
 }

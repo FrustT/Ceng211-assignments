@@ -32,14 +32,32 @@ public class MassBox<T extends Uncountable & Item> extends AbstractBox<T> {
 	public int getMass() {
 		return mass;
 	}
+	
+	public void add(T _element) throws Exception {
+		if(_element.getClass() != class.Uncountable) {
+			throw new InvalidBoxException();
+		}
+		
+		if (isAddible(_element)) {
+		contents.add(_element);
+		revenue += _element.getRevenue();
+		totalVolume += _element.getVolume();
+		updateRespectiveTotalAmount(_element);
+		_element.load();
+		}
+	}
 
 	@Override
 	public boolean haveRoomForItem(T item) {
-		return hasSpareVolume(item) && ((this.mass + item.getMass()) <= this.maxMass);
+		return hasSpareVolume(item) && ((mass + item.getMass()) <= maxMass);
 	}
 
 	@Override
 	public void updateRespectiveTotalAmount(T item) {
 		this.mass += item.getMass();
 	}	
+	@Override
+	public String toString() {
+		return this.getMaxVolume()+" liter(s) of Mass Box with capacity of "+ this.getMaxMass()+" with Serial Number of "+ this.getSerialNumber();
+	}
 }
