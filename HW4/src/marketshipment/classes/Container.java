@@ -23,9 +23,9 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 		isShipped = false;
 		maxVolume = 0;
 		totalVolume = 0;
-		revenue = 0;
+		revenue = 0.0;
 	}
-	
+
 	public Container(Container<T> _container) {
 		containerCode = _container.getContainerCode();
 		contents = _container.getContents();
@@ -33,7 +33,7 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 		isShipped = _container.isShipped();
 		maxVolume = _container.getMaxVolume();
 		totalVolume = _container.getTotalVolume();
-		revenue = _container.getRevenue(); 
+		revenue = _container.getTotalRevenue();
 	}
 
 	public Container(ContainerCode _containerCode, double _maxVolume, String _serialNumber) {
@@ -45,7 +45,7 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 		totalVolume = 0;
 		revenue = 0.0 - containerCode.getCost();
 	}
-	
+
 	@Override
 	public ContainerCode getContainerCode() {
 		return containerCode;
@@ -53,12 +53,12 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 
 	public List<T> getContents() {
 		List<T> result = new ArrayList<>();
-		for(T item: contents) {
+		for (T item : contents) {
 			result.add(item);
 		}
 		return result;
 	}
-	
+
 	@Override
 	public String getSerialNumber() {
 		return serialNumber;
@@ -78,7 +78,7 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 	}
 
 	@Override
-	public double getRevenue() {
+	public double getTotalRevenue() {
 		return revenue;
 	}
 
@@ -89,20 +89,20 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 
 	@Override
 	public void add(T box) {
-		if(!isAddible(box)) {
-			
-		}//TODO exception olayları
-		
-		if(box.getIsInContainer()) {
-			
-		}//TODO exception olayları
-		
+		if (!isAddible(box)) {
+
+		} // TODO exception olayları
+
+		if (box.getIsInContainer()) {
+
+		} // TODO exception olayları
+
 		contents.add(box);
 		box.putInContainer();
-		revenue += box.getRevenue();
+		revenue += box.getTotalRevenue();
 		totalVolume += box.getMaxVolume();
 	}
-	
+
 	public boolean haveRoomForBox(T box) {
 		return this.maxVolume - this.totalVolume > box.getMaxVolume();
 	}
@@ -114,13 +114,28 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 	@Override
 	public int getIndexOf(T _element) {
 		return getIndexOfWithSerial(_element.getSerialNumber());
-		
+
 	}
+
 	@Override
 	public int getIndexOfWithSerial(String s) {
-		for(int i = 0;i<contents.size();i++) {
-			if(contents.get(i).getSerialNumber().equals(s))return i;
+		for (int i = 0; i < contents.size(); i++) {
+			if (contents.get(i).getSerialNumber().equals(s))
+				return i;
 		}
 		return -1;
+	}
+
+	public double getCost() {
+		return containerCode.getCost();
+	}
+
+	@Override
+	public int getRevenueOfItems() {
+		int result = 0;
+		for(Box<Item> box : contents) {
+			result += box.getRevenueOfItems();
+		}
+		return result;
 	}
 }

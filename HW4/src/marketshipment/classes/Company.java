@@ -10,19 +10,11 @@ import marketshipment.exceptions.RuleException;
 import marketshipment.interfaces.*;
 
 public class Company {
-	private List<Item> items;
-	private List<Box<? extends Item>> boxes;
-	private List<Container<Box<Item>>> containers;
-	private List<Holder<? extends Serial>> holders;
 	private List<Serial> allSerials;
 	private double revenue;
 	private double unearnedRevenue;
 
 	public Company() {
-		containers = new ArrayList<>();
-		items = new ArrayList<>();
-		boxes = new ArrayList<>();
-		holders = new ArrayList<>();
 		allSerials = new ArrayList<>();
 		revenue = 0;
 		unearnedRevenue = 0;
@@ -44,48 +36,59 @@ public class Company {
 			case "M1", "W1", "O1":
 				CountableItem countableItem = new CountableItem(ItemCode.valueOf(ElementCode),
 						Double.valueOf(data.remove(0)), serialNumber);
-				isProduced(countableItem.getSerialNumber());
+				if (isProduced(countableItem.getSerialNumber())) {
+					unearnedRevenue += countableItem.getRevenue();// XXX i think it may be just cost
+					revenue -= countableItem.getCost();
+					throw new ExistingSerialNumberException();
+				}
+				unearnedRevenue += countableItem.getRevenue();
 				revenue -= countableItem.getCost();
-				items.add(countableItem);
 				allSerials.add(countableItem);
 				break;
 
 			case "S1", "F1", "P1", "R1":
 				UncountableItem uncountableItem = new UncountableItem(ItemCode.valueOf(ElementCode),
 						Integer.valueOf(data.remove(0)), Double.valueOf(data.remove(0)), serialNumber);
-				isProduced(uncountableItem.getSerialNumber());
+				if (isProduced(uncountableItem.getSerialNumber())) {
+					unearnedRevenue += uncountableItem.getRevenue();// XXX i think it may be just cost
+					revenue -= uncountableItem.getCost();
+					throw new ExistingSerialNumberException();
+				}
+				unearnedRevenue += uncountableItem.getRevenue();
 				revenue -= uncountableItem.getCost();
-				items.add(uncountableItem);
 				allSerials.add(uncountableItem);
 				break;
 
 			case "B1":
 				NumberBox<CountableItem> numberBox = new NumberBox<>(BoxCode.valueOf(ElementCode),
 						Integer.valueOf(data.remove(0)), Double.valueOf(data.remove(0)), serialNumber);
-				isProduced(numberBox.getSerialNumber());
-				revenue += numberBox.getRevenue();
-				boxes.add(numberBox);
-				holders.add(numberBox);
+				if (isProduced(numberBox.getSerialNumber())) {
+					revenue -= numberBox.getCost();
+					throw new ExistingSerialNumberException();
+				}
+				revenue -= numberBox.getCost();
 				allSerials.add(numberBox);
 				break;
 
 			case "B2":
 				MassBox<UncountableItem> massBox = new MassBox<>(BoxCode.valueOf(ElementCode),
 						Integer.valueOf(data.remove(0)), Double.valueOf(data.remove(0)), serialNumber);
-				isProduced(massBox.getSerialNumber());
-				revenue += massBox.getRevenue();
-				boxes.add(massBox);
-				holders.add(massBox);
+				if (isProduced(massBox.getSerialNumber())) {
+					revenue -= massBox.getCost();
+					throw new ExistingSerialNumberException();
+				}
+				revenue -= massBox.getCost();
 				allSerials.add(massBox);
 				break;
 
 			case "C1":
 				Container<Box<Item>> container = new Container<>(ContainerCode.valueOf(ElementCode),
 						Double.valueOf(data.remove(0)), serialNumber);
-				isProduced(container.getSerialNumber());
-				revenue += container.getRevenue();
-				containers.add(container);
-				holders.add(container);
+				if (isProduced(container.getSerialNumber())) {
+					revenue -= container.getCost();
+					throw new ExistingSerialNumberException();
+				}
+				revenue -= container.getCost();
 				allSerials.add(container);
 				break;
 			default:
@@ -103,36 +106,30 @@ public class Company {
 
 			if (indexOfHolder == -1)
 				throw new Exception("Holder with SerialNumber" + _holderSerialNumber + " is not Found");
-			
-			
+
 			@SuppressWarnings("unchecked")
 			Holder<Serial> holder = (Holder<Serial>) allSerials.get(indexOfHolder);
 
 			int indexOfLoad = getIndexOfWithSerial(_loadSerialNumber);
-			
-			if(indexOfLoad == -1)
-				throw new Exception("Load with SerialNumber"+ _loadSerialNumber+" is not Found!");
-			
+
+			if (indexOfLoad == -1)
+				throw new Exception("Load with SerialNumber" + _loadSerialNumber + " is not Found!");
+
 			Serial load = allSerials.get(indexOfLoad);
 
 			if (holder.getIndexOfWithSerial(_loadSerialNumber) != -1)
-				throw new Exception("Can not produce Load with Serial Number"+ _loadSerialNumber+" again");
-			
-			holder.add(load);
-			
+				throw new Exception("Can not produce Load with Serial Number" + _loadSerialNumber + " again");
 
-		}catch(Exception e){
+			holder.add(load);
+
+		} catch (Exception e) {
 			System.out.println(e.getLocalizedMessage());
 		}
-
-		
-		 /* if (load.getClass() == AbstractBox.class && holder.getClass() !=
-		 Container.class) { throw new InvalidHolderException(); }*/
 	}
 
-	private int getIndexOfWithSerial(String s) {
+	private int getIndexOfWithSerial(String serialNumber) {
 		for (int i = 0; i < allSerials.size(); i++) {
-			if ((allSerials.get(i)).getSerialNumber().equals(s))
+			if ((allSerials.get(i)).getSerialNumber().equals(serialNumber))
 				return i;
 		}
 		return -1;
@@ -140,18 +137,23 @@ public class Company {
 
 	public void ship(String _containerSerialNumber) throws Exception {
 
-		IContainer<Box<Item>> container = null;
-		for (IContainer<Box<Item>> containerInList : containers) {
-			if (containerInList.getSerialNumber().equals(_containerSerialNumber)) {
+		IContainer<?> container = (IContainer<?>) allSerials.get(getIndexOfWithSerial(_containerSerialNumber));
+		try {
+			if (container.isShipped()) {
+				throw new Exception(
+						"Exception: Container with Serial Number " + _containerSerialNumber + " already Shipped!");
+
 			}
-			container = containerInList;
+			container.ship();
+			int shippedItemsRevenue = container.getRevenueOfItems();
+			unearnedRevenue -= shippedItemsRevenue;
+			revenue += shippedItemsRevenue;
+
+			// TODO print
+		} catch (Exception e) {
+			System.out.println(e.getLocalizedMessage());
 		}
 
-		if (container.isShipped()) {
-
-		} // TODO epilepsişıngen
-
-		container.ship(); // TODO print
 	}
 
 	public void show(String _code) {
@@ -164,21 +166,17 @@ public class Company {
 			System.out.println("Total revenue: " + (revenue + unearnedRevenue));
 			break;
 		default:
-			System.out.println("InvalidInput");// TODO exception ?
+			System.out.println("Invalid Input");
 			break;
 		}
 	}
 
-	private boolean isProduced(String _serialNumber) throws RuleException {
+	private boolean isProduced(String _serialNumber) {
 		for (Serial element : allSerials) {
 			if (element.getSerialNumber().equals(_serialNumber)) {
-				throw new ExistingSerialNumberException();
+				return true;
 			}
 		}
 		return false;
-	}
-
-	public List<?> getItems() {// Debug REASONS
-		return items;
 	}
 }

@@ -21,9 +21,9 @@ public class UncountableItem extends AbstractItem implements Uncountable {
 		mass = _mass;
 	}
 	
-	
+	@Override
 	public double getCost() {
-		return mass * getItemCode().getCost();
+		return (double) mass * getItemCode().getCost();
 	}
 
 	@Override

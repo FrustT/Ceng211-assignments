@@ -8,8 +8,12 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class FileIO {
+	
+	private FileIO() {
+		
+	}
 
-	public static String NEWLINE_SEPERATOR = "\r?\n";
+	public static final String NEWLINE_SEPERATOR = "\r?\n";
 
 	public static List<String> getOrdersFromFile(String path) {
 

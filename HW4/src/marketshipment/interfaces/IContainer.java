@@ -8,7 +8,7 @@ public interface IContainer<T extends Serial> extends Serial, Holder<T> {
 	
 	public void ship();
 	
-	public double getRevenue();
+	public double getTotalRevenue();
 	
 	public boolean isShipped();
 }

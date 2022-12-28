@@ -5,7 +5,8 @@ import marketshipment.interfaces.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractBox<T extends Item> implements Box<T> , Holder<T> {
+public abstract class AbstractBox<T extends Item> implements Box<T>, Holder<T> {
+
 	private List<T> contents;
 	private BoxCode boxCode;
 	private String serialNumber;
@@ -31,7 +32,7 @@ public abstract class AbstractBox<T extends Item> implements Box<T> , Holder<T> 
 		totalVolume = _box.getTotalVolume();
 		isInContainer = _box.getIsInContainer();
 		maxVolume = _box.getMaxVolume();
-		revenue = _box.getRevenue();
+		revenue = _box.getTotalRevenue();
 	}
 
 	protected AbstractBox(BoxCode _boxCode, double _maxVolume, String _serialNumber) {
@@ -41,20 +42,19 @@ public abstract class AbstractBox<T extends Item> implements Box<T> , Holder<T> 
 		totalVolume = 0;
 		isInContainer = false;
 		maxVolume = _maxVolume;
-		revenue = 0 - boxCode.getCost();
+		revenue = 0.0 - boxCode.getCost();
 	}
 
-
 	public abstract boolean haveRoomForItem(T item);
-	
+
 	public abstract void updateRespectiveTotalAmount(T item);
-	
+
 	public String getSerialNumber() {
 		return serialNumber;
 	}
 
 	public List<T> getContents() {
-		List<T> result = new ArrayList<T>();
+		List<T> result = new ArrayList<>();
 		for (T item : contents) {
 			result.add(item);
 		}
@@ -63,15 +63,25 @@ public abstract class AbstractBox<T extends Item> implements Box<T> , Holder<T> 
 
 	public int getIndexOf(T _element) {
 		return getIndexOfWithSerial(_element.getSerialNumber());
-		
+
 	}
+
 	public int getIndexOfWithSerial(String s) {
-		for(int i = 0;i<contents.size();i++) {
-			if(contents.get(i).getSerialNumber().equals(s))return i;
+		for (int i = 0; i < contents.size(); i++) {
+			if (contents.get(i).getSerialNumber().equals(s))
+				return i;
 		}
 		return -1;
 	}
-	
+
+	public int getRevenueOfItems() {
+		int result = 0;
+		for (Item i : contents) {
+			result += i.getRevenue();
+		}
+		return result;
+	}
+
 	public boolean getIsInContainer() {
 		return isInContainer;
 	}
@@ -79,7 +89,11 @@ public abstract class AbstractBox<T extends Item> implements Box<T> , Holder<T> 
 	public BoxCode getBoxCode() {
 		return boxCode;
 	}
-	
+
+	public int getCost() {
+		return boxCode.getCost();
+	}
+
 	public boolean hasSpareVolume(T item) {
 		return (item.getVolume() + this.totalVolume) <= this.maxVolume;
 	}
@@ -87,15 +101,14 @@ public abstract class AbstractBox<T extends Item> implements Box<T> , Holder<T> 
 	public boolean isAddible(T item) {
 		return this.haveRoomForItem(item) && !this.isInContainer;
 	}
-	
+
 	@Override
 	public double getMaxVolume() {
 		return maxVolume;
 	}
 
-
 	@Override
-	public double getRevenue() {
+	public double getTotalRevenue() {
 		return revenue;
 	}
 
@@ -103,11 +116,11 @@ public abstract class AbstractBox<T extends Item> implements Box<T> , Holder<T> 
 	public double getTotalVolume() {
 		return totalVolume;
 	}
-	
+
 	@Override
-	public void add(T _element) {//TODO try catch
+	public void add(T _element) {// TODO try catch
 		if (!isAddible(_element)) {
-			
+
 		} // TODO THROW EXCEPTION
 		contents.add(_element);
 		revenue += _element.getRevenue();

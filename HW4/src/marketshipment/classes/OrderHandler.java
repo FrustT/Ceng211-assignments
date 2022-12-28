@@ -55,7 +55,7 @@ public class OrderHandler {
 	}
 
 	public boolean hasMoreOrders() {
-		return orders.size() != 0;
+		return !orders.isEmpty();
 	}
 
 	public void executeAnOrder() throws Exception {
