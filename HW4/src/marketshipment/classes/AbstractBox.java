@@ -9,6 +9,26 @@ import marketshipment.interfaces.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *	This abstract class implements the box interface and partially implements 
+ *  the descendants of this class.
+ * <ul>
+ * <li><strong>contents</strong> type: List<T>
+ * <li><strong>boxCode</strong> type: BoxCode
+ * <li><strong>serialNumber</strong> type: String
+ * <li><strong>totalVolume</strong> type: double
+ * <li><strong>isInContainer</strong> type: boolean
+ * <li><strong>maxVolume</strong> type: double
+ * <li><strong>totalPrice</strong> type: double
+ * <li><strong>totalCost</strong> type: double
+ * </ul>
+ * 
+ * @author Mustafa Fatih Can 280201007
+ * @author Deniz Kaya 280201033
+ * @author Hakan Uskan 280201076
+ * @author Burak Erinc 290201099
+ */
+
 public abstract class AbstractBox<T extends Item> implements Box<T>, Holder<T> {
 
 	private List<T> contents;
@@ -20,7 +40,10 @@ public abstract class AbstractBox<T extends Item> implements Box<T>, Holder<T> {
 	private double totalPrice;
 	private double totalCost;
 
-
+	/**
+	 * <strong>No Argument Constructor</strong>
+	 * <p>
+	 */
 	protected AbstractBox() {
 		boxCode = null;
 		serialNumber = "Default Box. No serial number.";
@@ -31,7 +54,14 @@ public abstract class AbstractBox<T extends Item> implements Box<T>, Holder<T> {
 		totalPrice = 0;
 		totalCost = 0;
 	}
-
+	
+	/**
+	 * <strong>Copy Constructor</strong>
+	 * <p>
+	 * Constructs a new AbstractBox Object with another AbstractBox Object
+	 * 
+	 * @param _box
+	 */
 	protected AbstractBox(AbstractBox<T> _box) {
 		boxCode = _box.getBoxCode();
 		serialNumber = _box.getSerialNumber();
@@ -42,7 +72,16 @@ public abstract class AbstractBox<T extends Item> implements Box<T>, Holder<T> {
 		totalPrice = _box.getTotalPrice();
 		totalCost = _box.getTotalCost();
 	}
-
+	
+	/**
+	 * <strong>Parameterized Constructor</strong>
+	 * <p>
+	 * Constructs AbstractBox object with required data.
+	 * 
+	 * @param _boxCode
+	 * @param _maxVolume
+	 * @param _serialNumber
+	 */
 	protected AbstractBox(BoxCode _boxCode, double _maxVolume, String _serialNumber) {
 		contents = new ArrayList<>();
 		boxCode = _boxCode;
@@ -53,23 +92,40 @@ public abstract class AbstractBox<T extends Item> implements Box<T>, Holder<T> {
 		totalCost = boxCode.getCost() * maxVolume;
 		totalPrice = 0;
 	}
-
+	
+	
+	/**
+	 * Returns true if element can load to Box object, otherwise returns false.
+	 *
+	 * @param item type: T The item Element to be put in the box.
+	 * @return type: boolean
+	 * @throws CannotBeAddedToHolderException
+	 */
 	public abstract boolean haveRoomForItem(T item) throws CannotBeAddedToHolderException;
-
+	 
+	/**
+	 *  Updates the mass or number of items in a box respect to its type.(NumberBox -> numberOfItems, MassBox -> mass)
+	 * 
+	 * @param item type: T
+	 */
 	public abstract void updateRespectiveTotalAmount(T item);
 	
+	@Override
 	public double getTotalPrice() {
 		return totalPrice;
 	}
 	
+	@Override
 	public double getTotalCost() {
 		return totalCost;
 	}
 	
+	@Override
 	public String getSerialNumber() {
 		return serialNumber;
 	}
 
+	@Override
 	public List<T> getContents() {
 		List<T> result = new ArrayList<>();
 		for (T item : contents) {
@@ -78,27 +134,41 @@ public abstract class AbstractBox<T extends Item> implements Box<T>, Holder<T> {
 		return result;
 	}
 
+	@Override
 	public int getIndexOf(T _element) {
 		return getIndexOfWithSerial(_element.getSerialNumber());
 
 	}
 
-	public int getIndexOfWithSerial(String s) {
+	@Override
+	public int getIndexOfWithSerial(String _serialNumber) {
 		for (int i = 0; i < contents.size(); i++) {
-			if (contents.get(i).getSerialNumber().equals(s))
+			if (contents.get(i).getSerialNumber().equals(_serialNumber))
 				return i;
 		}
 		return -1;
 	}
 
+    @Override
 	public boolean isInContainer() {
 		return isInContainer;
 	}
-
+	
+    /**
+     * Gets the BoxCode.
+     *
+     * @return type: BoxCode
+     */
 	public BoxCode getBoxCode() {
 		return boxCode;
 	}
 
+	/**
+	 * Returns true if the box will not be full even after we add the item.
+	 *
+	 * @param item
+	 * @return boolean
+	 */
 	public boolean hasSpareVolume(T item) {
 		return (item.getVolume() + totalVolume) <= maxVolume;
 	}
@@ -108,6 +178,7 @@ public abstract class AbstractBox<T extends Item> implements Box<T>, Holder<T> {
 		return maxVolume;
 	}
 
+	@Override
 	public double getRevenue() {
 		return totalPrice - totalCost;
 	}
@@ -131,7 +202,14 @@ public abstract class AbstractBox<T extends Item> implements Box<T>, Holder<T> {
 	public void putInContainer() {
 		isInContainer = true;
 	}
-
+	
+	/**
+	 * Returns true if element can load to Box object, otherwise returns false.
+	 *
+	 * @param item type: T
+	 * @return type: boolean
+	 * @throws CannotBeAddedToHolderException
+	 */
 	protected boolean isAddible(T item) throws CannotBeAddedToHolderException {
 		if (item.isLoaded()) {
 			throw new LoadIsAlreadyLoadedException();

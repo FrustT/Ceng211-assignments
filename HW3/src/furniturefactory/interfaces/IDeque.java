@@ -1,7 +1,7 @@
 package furniturefactory.interfaces;
 
 /**
- * Deque Interface defines which methods a IDeque object should have
+ * Deque Interface defines which methods a IDeque object should have.
  * 
  * @author Mustafa Fatih Can 280201007
  * @author Deniz Kaya 280201033

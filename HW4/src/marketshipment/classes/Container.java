@@ -11,6 +11,26 @@ import marketshipment.interfaces.Box;
 import marketshipment.interfaces.IContainer;
 import marketshipment.interfaces.Item;
 
+/**
+ * This class implements container interface and holds box of items as list.
+ *
+ * <ul>
+ * <li><strong>containerCode</strong> type: ContainerCode
+ * <li><strong>contents</strong> type: List<T>
+ * <li><strong>serialNumber</strong> type: String
+ * <li><strong>isShipped</strong> type: boolean
+ * <li><strong>maxVolume</strong> type: double
+ * <li><strong>totalVolume</strong> type: double
+ * <li><strong>totalPrice</strong> type: double
+ * <li><strong>totalCost</strong> type: double
+ * </ul>
+ * 
+ * @author Mustafa Fatih Can 280201007
+ * @author Deniz Kaya 280201033
+ * @author Hakan Uskan 280201076
+ * @author Burak Erinc 290201099
+ */
+
 public class Container<T extends Box<Item>> implements IContainer<T> {
 	private ContainerCode containerCode;
 	private List<T> contents;
@@ -20,7 +40,10 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 	private double totalVolume;
 	private double totalPrice;
 	private double totalCost;
-
+	/**
+	 * <strong>No Argument Constructor</strong>
+	 * <p>
+	 */
 	public Container() {
 		containerCode = null;
 		contents = new ArrayList<>();
@@ -31,7 +54,14 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 		totalPrice = 0.0;
 		totalCost = 0.0;
 	}
-
+	
+	/**
+	 * <strong>Copy Constructor</strong>
+	 * <p>
+	 * Constructs a new Container Object with another Container Object
+	 * 
+	 * @param _container
+	 */
 	public Container(Container<T> _container) {
 		containerCode = _container.getContainerCode();
 		contents = _container.getContents();
@@ -42,7 +72,16 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 		totalPrice = _container.getTotalPrice();
 		totalCost = _container.getTotalCost();
 	}
-
+	
+	/**
+	 * <strong>Parameterized Constructor</strong>
+	 * <p>
+	 * Constructs Container object with required data.
+	 * 
+	 * @param _containerCode
+	 * @param _maxVolume
+	 * @param _serialNumber
+	 */
 	public Container(ContainerCode _containerCode, double _maxVolume, String _serialNumber) {
 		containerCode = _containerCode;
 		contents = new ArrayList<>();
@@ -53,11 +92,14 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 		totalPrice = 0.0;
 		totalCost = _containerCode.getCost() * _maxVolume;
 	}
+	
+	
 	@Override
 	public ContainerCode getContainerCode() {
 		return containerCode;
 	}
-
+	
+	@Override
 	public List<T> getContents() {
 		List<T> result = new ArrayList<>();
 		for (T item : contents) {
@@ -75,6 +117,7 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 	public double getTotalCost() {
 		return totalCost;
 	}
+	
 	@Override
 	public String getSerialNumber() {
 		return serialNumber;
@@ -84,11 +127,21 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 	public boolean isShipped() {
 		return isShipped;
 	}
-
+	
+	/**
+	 * Returns the maximum value of the Container object can have.
+	 *
+	 * @return type: double
+	 */
 	public double getMaxVolume() {
 		return maxVolume;
 	}
-
+	
+	/**
+	 * Returns the total volume value in the Container object.
+	 *
+	 * @return type: double
+	 */
 	public double getTotalVolume() {
 		return totalVolume;
 	}
@@ -113,7 +166,14 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 		totalVolume += box.getMaxVolume();
 		}
 	}
-
+	
+    
+	/**
+	 * Returns true if element can load to Container object, otherwise returns false.
+	 *
+	 * @param box
+	 * @return
+	 */
 	public boolean haveRoomForBox(T box) {
 		return (maxVolume - totalVolume) > box.getTotalVolume();
 	}
@@ -153,11 +213,5 @@ public class Container<T extends Box<Item>> implements IContainer<T> {
 		}
 		
 		return true;
-	}
-
-	@Override
-	public double getRevenue() {
-		// TODO Auto-generated method stub
-		return this.getTotalRevenue();
 	}
 }
